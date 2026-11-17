@@ -16,6 +16,10 @@ class Resume(CreatedAtMixin, Base):
     id: Mapped[uuid.UUID] = mapped_column(
         primary_key=True, server_default=text("gen_random_uuid()")
     )
+    # Nullable only for anonymous rows from before accounts; they match no owner and expire.
+    user_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
     filename: Mapped[str]
     raw_text: Mapped[str]
     parsed: Mapped[dict[str, Any] | None]

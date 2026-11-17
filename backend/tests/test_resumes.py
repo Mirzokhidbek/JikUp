@@ -8,6 +8,7 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy import text, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.auth import CurrentUser, current_user
 from app.core.db import get_session
 from app.core.llm import get_llm_client
 from app.main import app
@@ -104,6 +105,14 @@ async def test_upload_read_delete(client: tuple[AsyncClient, FakeModels]) -> Non
 
     assert (await c.get(f"/resumes/{resume_id}")).json()["parsed"]["name"] == "Aziz Karimov"
     assert (await c.delete(f"/resumes/{resume_id}")).status_code == 204
+    assert (await c.get(f"/resumes/{resume_id}")).status_code == 404
+    assert (await c.delete(f"/resumes/{resume_id}")).status_code == 404
+
+
+async def test_other_user_cannot_see_or_delete(client: tuple[AsyncClient, FakeModels]) -> None:
+    c, _ = client
+    resume_id = (await upload(c, make_pdf(RESUME_LINES))).json()["id"]
+    app.dependency_overrides[current_user] = lambda: CurrentUser(uuid.uuid4(), "other@example.com")
     assert (await c.get(f"/resumes/{resume_id}")).status_code == 404
     assert (await c.delete(f"/resumes/{resume_id}")).status_code == 404
 

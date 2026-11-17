@@ -11,6 +11,7 @@ import type {
   SkillCount,
   SkillsReport,
   TrendReport,
+  UserOut,
 } from './types'
 
 export const API_BASE = '/api'
@@ -60,7 +61,15 @@ export function queryString(query: Record<string, string | number | string[] | u
   return text ? `?${text}` : ''
 }
 
+export type Credentials = { email: string; password: string }
+
 export const api = {
+  auth: {
+    me: () => request<UserOut>('/auth/me'),
+    login: (body: Credentials) => request<UserOut>('/auth/login', jsonPost(body)),
+    register: (body: Credentials) => request<UserOut>('/auth/register', jsonPost(body)),
+    logout: () => request<void>('/auth/logout', { method: 'POST' }),
+  },
   getJobs: (query: JobQuery) => request<JobPage>(`/jobs${queryString(query)}`),
   getJob: (id: number) => request<JobDetail>(`/jobs/${id}`),
   getSkills: () => request<SkillCount[]>('/skills'),

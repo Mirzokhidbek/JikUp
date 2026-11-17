@@ -10,6 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.agent import get_session_factory
+from app.core.auth import CurrentUser, current_user
 from app.core.db import get_session
 from app.core.llm import get_llm_client
 from app.main import app
@@ -17,6 +18,7 @@ from app.models import Job
 from app.resumes.parser import ParsedResume
 from app.services.ingest import run_collection
 from app.services.resumes import create_resume
+from tests.conftest import TEST_USER_ID
 from tests.test_agent_loop import LETTER, PREP, call, turn
 from tests.test_retriever import JOBS
 from tests.test_search_api import parse_sse
@@ -40,7 +42,9 @@ class FakeModels:
 async def ctx(db_session: AsyncSession) -> AsyncIterator[dict[str, Any]]:
     await run_collection(db_session, "seed", JOBS)
     job_id = (await db_session.execute(select(Job.id).limit(1))).scalar_one()
-    resume = await create_resume(db_session, "r.pdf", "text", ParsedResume(skills=["Python"]))
+    resume = await create_resume(
+        db_session, TEST_USER_ID, "r.pdf", "text", ParsedResume(skills=["Python"])
+    )
     state: dict[str, Any] = {"job_id": job_id, "resume_id": str(resume.id)}
 
     async def session_override() -> AsyncIterator[AsyncSession]:
@@ -110,3 +114,12 @@ async def test_missing_resume_or_job_is_404(ctx: dict[str, Any]) -> None:
         assert (await client.get(f"/agent/runs/{uuid.uuid4()}")).status_code == 404
         bad = {"resume_id": ctx["resume_id"], "job_id": ctx["job_id"], "language": "de"}
         assert (await client.post("/agent/run", json=bad)).status_code == 422
+
+
+async def test_runs_are_private(ctx: dict[str, Any]) -> None:
+    body = {"resume_id": ctx["resume_id"], "job_id": ctx["job_id"]}
+    async with ctx["use"](FakeModels([], fail_writing=True)) as client:
+        run_id = parse_sse((await client.post("/agent/run", json=body)).text)[0][1]["run_id"]
+        app.dependency_overrides[current_user] = lambda: CurrentUser(uuid.uuid4(), "x@example.com")
+        assert (await client.get(f"/agent/runs/{run_id}")).status_code == 404
+        assert (await client.post("/agent/run", json=body)).status_code == 404

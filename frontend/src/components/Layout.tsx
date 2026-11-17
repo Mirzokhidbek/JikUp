@@ -1,9 +1,11 @@
 import { useEffect, useId, useState } from 'react'
-import { NavLink, Outlet } from 'react-router'
+import { NavLink, Outlet, useNavigate } from 'react-router'
+import { useAuth } from '../hooks/useAuth'
 import type { MessageKey } from '../i18n/en'
 import { useI18n } from '../i18n/useI18n'
 import { LanguageSelect, ThemeToggle } from './HeaderControls'
-import { focusRing, iconButton, navLink } from './ui'
+import Logo from './Logo'
+import { iconButton, muted, navLink, secondaryButton } from './ui'
 
 const NAV_ITEMS: { to: string; label: MessageKey }[] = [
   { to: '/search', label: 'nav.search' },
@@ -37,6 +39,13 @@ export default function Layout() {
   const { t } = useI18n()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuId = useId()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+  // Leave the portal first: once the session is cleared this layout unmounts.
+  const signOut = () => {
+    navigate('/', { replace: true })
+    logout.mutate()
+  }
   useEffect(() => {
     if (!menuOpen) return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuOpen(false)
@@ -54,32 +63,24 @@ export default function Layout() {
       </a>
       <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md dark:bg-slate-950/85">
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-          <NavLink
-            to="/"
-            aria-label={t('nav.home')}
-            className={`inline-flex min-h-11 shrink-0 items-center rounded-md ${focusRing}`}
-          >
-            <img
-              src="/logo-light.png"
-              alt="JikUp"
-              width={480}
-              height={164}
-              className="h-9 w-auto dark:hidden"
-            />
-            <img
-              src="/logo-dark.png"
-              alt="JikUp"
-              width={480}
-              height={164}
-              className="hidden h-9 w-auto dark:block"
-            />
-          </NavLink>
+          <Logo />
           <nav aria-label={t('nav.main')} className="hidden md:block">
             <NavItems />
           </nav>
           <div className="ml-auto flex items-center gap-2">
             <LanguageSelect />
             <ThemeToggle />
+            {user && (
+              <span
+                className={`hidden max-w-48 truncate text-sm lg:inline ${muted}`}
+                title={t('auth.signedInAs', { email: user.email })}
+              >
+                {user.email}
+              </span>
+            )}
+            <button type="button" onClick={signOut} className={`${secondaryButton} max-md:hidden`}>
+              {t('auth.logout')}
+            </button>
             <button
               type="button"
               className={`${iconButton} md:hidden`}
@@ -109,6 +110,10 @@ export default function Layout() {
           className="border-t border-ink/8 px-4 py-3 md:hidden dark:border-white/8"
         >
           <NavItems vertical onNavigate={() => setMenuOpen(false)} />
+          {user && <p className={`mt-3 truncate px-3 text-sm ${muted}`}>{user.email}</p>}
+          <button type="button" onClick={signOut} className={`${secondaryButton} mt-2 w-full`}>
+            {t('auth.logout')}
+          </button>
         </nav>
       </header>
       <main id="main" className="mx-auto max-w-6xl px-4 py-8">

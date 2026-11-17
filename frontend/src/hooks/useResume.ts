@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { ApiError, api } from '../api/client'
 
-const STORAGE_KEY = 'jikup.resume'
+export const STORAGE_KEY = 'jikup.resume'
 
 export function useResume() {
   const client = useQueryClient()

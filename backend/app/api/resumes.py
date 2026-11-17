@@ -7,6 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Response, UploadFile, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.auth import User
 from app.core.config import get_settings
 from app.core.db import get_session
 from app.core.llm import LLM
@@ -26,7 +27,7 @@ MAX_FILENAME = 200
 @router.post(
     "", status_code=status.HTTP_201_CREATED, dependencies=[Depends(rate_limit(RESUME_UPLOAD))]
 )
-async def upload_resume(file: UploadFile, session: Session, client: LLM) -> ResumeOut:
+async def upload_resume(file: UploadFile, session: Session, client: LLM, user: User) -> ResumeOut:
     data = await file.read(MAX_BYTES + 1)
     try:
         text = await asyncio.to_thread(extract_text, data)
@@ -38,19 +39,19 @@ async def upload_resume(file: UploadFile, session: Session, client: LLM) -> Resu
         log.warning("resume parsing failed (%s)", type(exc).__name__)
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Could not analyze the resume") from None
     filename = PurePath(file.filename or "resume.pdf").name[:MAX_FILENAME]
-    return await create_resume(session, filename, text, parsed)
+    return await create_resume(session, user.id, filename, text, parsed)
 
 
 @router.get("/{resume_id}")
-async def read_resume(resume_id: uuid.UUID, session: Session) -> ResumeOut:
-    resume = await get_resume(session, resume_id)
+async def read_resume(resume_id: uuid.UUID, session: Session, user: User) -> ResumeOut:
+    resume = await get_resume(session, resume_id, user.id)
     if resume is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Resume not found")
     return resume
 
 
 @router.delete("/{resume_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def remove_resume(resume_id: uuid.UUID, session: Session) -> Response:
-    if not await delete_resume(session, resume_id):
+async def remove_resume(resume_id: uuid.UUID, session: Session, user: User) -> Response:
+    if not await delete_resume(session, resume_id, user.id):
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Resume not found")
     return Response(status_code=status.HTTP_204_NO_CONTENT)

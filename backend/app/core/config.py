@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     saramin_max_pages: int = 10
 
     admin_token: SecretStr = SecretStr("")
+    session_days: int = 7
+    # None: Secure cookies everywhere except development (plain http://localhost).
+    session_cookie_secure: bool | None = None
     rate_limit_enabled: bool = True
 
     @field_validator("cors_origins", mode="before")
@@ -39,6 +42,12 @@ class Settings(BaseSettings):
     @property
     def is_dev(self) -> bool:
         return self.env == "development"
+
+    @property
+    def cookie_secure(self) -> bool:
+        if self.session_cookie_secure is None:
+            return not self.is_dev
+        return self.session_cookie_secure
 
 
 @lru_cache

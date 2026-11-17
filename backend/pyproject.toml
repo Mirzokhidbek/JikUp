@@ -19,6 +19,7 @@ dependencies = [
     "kiwipiepy>=0.24.1",
     "pypdf>=7.1.0",
     "python-multipart>=0.0.34",
+    "argon2-cffi>=23.1",
 ]
 
 [dependency-groups]
@@ -53,6 +54,7 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = ["real_auth: use the real session check instead of the signed-in test user"]
 
 [tool.mypy]
 strict = true

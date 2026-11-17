@@ -24,6 +24,7 @@ DEFAULT = Limit("default", 120, 60)
 SEARCH = Limit("search", 20, 60)
 RESUME_UPLOAD = Limit("resume", 10, 3600)
 AGENT_RUN = Limit("agent", 5, 3600)
+AUTH = Limit("auth", 10, 60)
 
 
 def client_ip(request: Request) -> str:

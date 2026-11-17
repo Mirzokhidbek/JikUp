@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.agent.loop import AgentRunner
 from app.agent.toolbox import DatabaseToolbox
 from app.api.search import sse
+from app.core.auth import User
 from app.core.config import get_settings
 from app.core.db import SessionLocal, get_session
 from app.core.llm import LLM
@@ -67,8 +68,9 @@ async def run_agent(
     session: Session,
     client: LLM,
     factory: Annotated[SessionFactory, Depends(get_session_factory)],
+    user: User,
 ) -> StreamingResponse:
-    if await get_resume_row(session, body.resume_id) is None:
+    if await get_resume_row(session, body.resume_id, user.id) is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Resume not found")
     if await get_job(session, body.job_id) is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Job not found")
@@ -93,8 +95,8 @@ async def run_agent(
 
 
 @router.get("/runs/{run_id}")
-async def read_run(run_id: uuid.UUID, session: Session) -> AgentRunOut:
-    run = await get_run(session, run_id)
+async def read_run(run_id: uuid.UUID, session: Session, user: User) -> AgentRunOut:
+    run = await get_run(session, run_id, user.id)
     if run is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Run not found")
     return run

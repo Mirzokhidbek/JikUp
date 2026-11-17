@@ -1,12 +1,15 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ApiError } from '../api/client'
 import { streamSse, type SseEvent } from '../api/sse'
 import { useI18n } from '../i18n/useI18n'
+import { signedOut } from './useAuth'
 
 export type StreamStatus = 'idle' | 'streaming' | 'done' | 'error' | 'stopped'
 
 export function useEventStream() {
   const { t } = useI18n()
+  const client = useQueryClient()
   const [status, setStatus] = useState<StreamStatus>('idle')
   const [error, setError] = useState<string | null>(null)
   const controller = useRef<AbortController | null>(null)
@@ -26,6 +29,11 @@ export function useEventStream() {
           setStatus('stopped')
           return
         }
+        if (err instanceof ApiError && err.status === 401) {
+          setStatus('error')
+          signedOut(client)
+          return
+        }
         if (err instanceof ApiError) {
           const known = { 429: 'common.rateLimited', 503: 'common.llmOff' } as const
           const key = known[err.status as keyof typeof known]
@@ -36,7 +44,7 @@ export function useEventStream() {
         setStatus('error')
       }
     },
-    [t],
+    [t, client],
   )
 
   const stop = useCallback(() => controller.current?.abort(), [])

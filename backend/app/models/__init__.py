@@ -5,6 +5,7 @@ from app.models.job import Job
 from app.models.job_chunk import EMBED_DIM, JobChunk
 from app.models.resume import AgentRun, Resume
 from app.models.skill import JobSkill, Skill
+from app.models.user import User
 
 __all__ = [
     "EMBED_DIM",
@@ -17,4 +18,5 @@ __all__ = [
     "JobSkill",
     "Resume",
     "Skill",
+    "User",
 ]

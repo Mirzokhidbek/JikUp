@@ -33,3 +33,5 @@ export type JobQuery = {
   limit?: number
   offset?: number
 }
+
+export type UserOut = { id: string; email: string }
