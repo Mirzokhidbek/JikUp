@@ -7,6 +7,7 @@ import { ListSkeleton } from './components/States'
 import AuthPage from './pages/AuthPage.tsx'
 import ChatPage from './pages/ChatPage.tsx'
 import CopilotPage from './pages/CopilotPage.tsx'
+import HomePage from './pages/HomePage.tsx'
 import LandingPage from './pages/LandingPage.tsx'
 import NotFoundPage from './pages/NotFoundPage.tsx'
 import SearchPage from './pages/SearchPage.tsx'
@@ -29,11 +30,12 @@ export default function App() {
           </RequireAuth>
         }
       >
+        <Route path="dashboard" element={<HomePage />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="chat" element={<ChatPage />} />
         <Route path="copilot" element={<CopilotPage />} />
         <Route
-          path="dashboard"
+          path="analytics"
           element={
             <Suspense fallback={<ListSkeleton />}>
               <DashboardPage />

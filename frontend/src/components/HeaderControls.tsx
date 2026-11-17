@@ -51,3 +51,30 @@ export function LanguageSelect() {
     </label>
   )
 }
+
+const FLAGS: Record<string, string> = { en: '🇺🇸', uz: '🇺🇿', ko: '🇰🇷' }
+
+/** Round flag button from the design; a transparent native select keeps it accessible. */
+export function LanguageFlag() {
+  const { lang, setLang, t } = useI18n()
+  return (
+    <label
+      className="relative flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-[22px] shadow-[0_6px_18px_-8px_rgb(20_40_120/0.35)] ring-1 ring-line has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand dark:bg-slate-900 dark:ring-white/15"
+      title={t('language.label')}
+    >
+      <span aria-hidden="true">{FLAGS[lang]}</span>
+      <span className="sr-only">{t('language.label')}</span>
+      <select
+        value={lang}
+        onChange={(e) => isLang(e.target.value) && setLang(e.target.value)}
+        className="absolute inset-0 cursor-pointer opacity-0"
+      >
+        {LANGUAGES.map(({ code, label }) => (
+          <option key={code} value={code}>
+            {FLAGS[code]} {label}
+          </option>
+        ))}
+      </select>
+    </label>
+  )
+}

@@ -11,6 +11,7 @@ import type {
   SkillCount,
   SkillsReport,
   TrendReport,
+  PublicStats,
   UserOut,
 } from './types'
 
@@ -64,6 +65,7 @@ export function queryString(query: Record<string, string | number | string[] | u
 export type Credentials = { email: string; password: string }
 
 export const api = {
+  publicStats: () => request<PublicStats>('/public/stats'),
   auth: {
     me: () => request<UserOut>('/auth/me'),
     login: (body: Credentials) => request<UserOut>('/auth/login', jsonPost(body)),

@@ -92,7 +92,7 @@ export default function ChatPage() {
 
       <form
         onSubmit={onSubmit}
-        className="sticky bottom-0 mt-8 bg-white/90 py-4 backdrop-blur-md dark:bg-slate-950/90"
+        className="sticky bottom-0 mt-8 bg-page/90 py-4 backdrop-blur-md dark:bg-slate-950/90"
       >
         <label htmlFor={inputId} className="sr-only">
           {t('chat.inputLabel')}

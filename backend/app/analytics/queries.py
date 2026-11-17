@@ -8,6 +8,7 @@ from app.analytics.schemas import (
     Bucket,
     CooccurrenceReport,
     Overview,
+    PublicStats,
     SkillShare,
     SkillsReport,
     TrendReport,
@@ -16,6 +17,8 @@ from app.analytics.schemas import (
 from app.models import Job, JobSkill, Skill
 
 EXPERIENCE_BUCKETS = ("new", "1-3", "4-5", "6+", "any")
+AI_ML_CATEGORY = "AI/ML"
+JUNIOR_MAX_YEARS = 2
 
 
 def _share(part: int, total: int) -> float:
@@ -185,4 +188,30 @@ async def cooccurrence_report(session: AsyncSession, skill: str, limit: int) -> 
         skill=skill,
         jobs=total,
         related=[SkillShare(name=name, jobs=n, share=_share(n, total)) for name, n in rows.all()],
+    )
+
+
+async def public_stats(session: AsyncSession, top: int) -> PublicStats:
+    """Aggregate numbers safe to show before sign-in (no user data)."""
+    total = await _count(session, _in_period(None))
+    ai_ml = (
+        await session.execute(
+            select(func.count(distinct(JobSkill.job_id)))
+            .join(Skill, Skill.id == JobSkill.skill_id)
+            .join(Job, Job.id == JobSkill.job_id)
+            .where(_in_period(None), Skill.category == AI_ML_CATEGORY)
+        )
+    ).scalar_one()
+    return PublicStats(
+        active_jobs=total,
+        new_this_week=await _count(session, _in_period(7)),
+        ai_ml_jobs=ai_ml,
+        # "Any experience" postings are open to juniors too.
+        junior_jobs=await _count(
+            session, _in_period(None), func.coalesce(Job.experience_min, 0) <= JUNIOR_MAX_YEARS
+        ),
+        top_skills=[
+            SkillShare(name=name, jobs=n, share=_share(n, total))
+            for name, n in await skill_counts(session, None, None, top)
+        ],
     )

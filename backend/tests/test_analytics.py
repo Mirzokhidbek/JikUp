@@ -71,7 +71,7 @@ async def client(db_session: AsyncSession) -> AsyncIterator[AsyncClient]:
 
 async def test_overview(client: AsyncClient) -> None:
     res = await client.get("/analytics/overview")
-    assert res.headers["cache-control"] == "public, max-age=300"
+    assert res.headers["cache-control"] == "private, max-age=300"
     assert res.json() == {
         "active_jobs": 3,
         "new_this_week": 1,
@@ -79,6 +79,22 @@ async def test_overview(client: AsyncClient) -> None:
         "demo_share": 66.7,
         "top_skill": {"name": "Python", "jobs": 2, "share": 66.7},
     }
+
+
+@pytest.mark.real_auth
+async def test_public_stats_need_no_session(client: AsyncClient) -> None:
+    assert (await client.get("/analytics/overview")).status_code == 401
+    res = await client.get("/public/stats")
+    assert res.status_code == 200
+    assert res.headers["cache-control"] == "public, max-age=300"
+    body = res.json()
+    assert {k: body[k] for k in ("active_jobs", "new_this_week", "ai_ml_jobs", "junior_jobs")} == {
+        "active_jobs": 3,
+        "new_this_week": 1,
+        "ai_ml_jobs": 1,
+        "junior_jobs": 2,
+    }
+    assert body["top_skills"][0] == {"name": "Python", "jobs": 2, "share": 66.7}
 
 
 async def test_skills_period_and_category(client: AsyncClient) -> None:

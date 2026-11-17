@@ -22,7 +22,8 @@ Days = Annotated[int | None, Query(ge=7, le=365)]
 
 
 def cached(response: Response) -> None:
-    response.headers["Cache-Control"] = f"public, max-age={CACHE_SECONDS}"
+    # private: these routes need a session, so shared caches must not reuse the response.
+    response.headers["Cache-Control"] = f"private, max-age={CACHE_SECONDS}"
 
 
 Cached = Depends(cached)

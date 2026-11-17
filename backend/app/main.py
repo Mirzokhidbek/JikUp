@@ -6,7 +6,18 @@ from arq.connections import RedisSettings
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import admin, agent, analytics, auth, health, jobs, resumes, search, skills
+from app.api import (
+    admin,
+    agent,
+    analytics,
+    auth,
+    health,
+    jobs,
+    public,
+    resumes,
+    search,
+    skills,
+)
 from app.core.auth import current_user
 from app.core.config import get_settings
 from app.core.db import engine
@@ -48,6 +59,7 @@ app.add_middleware(
 
 app.include_router(health.router)
 app.include_router(auth.router)
+app.include_router(public.router)
 app.include_router(admin.router)
 
 # Everything in the portal needs a signed-in user.

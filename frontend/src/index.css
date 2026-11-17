@@ -4,8 +4,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-brand: #0a6cf5;
-  --color-ink: #0f1631;
+  --color-brand: #1443e2;
+  --color-brand-strong: #0f35c2;
+  --color-brand-soft: #ebf0fe;
+  --color-ink: #0b1437;
+  --color-line: #e3e7f3;
+  --color-page: #f6f8fd;
   --font-sans:
     'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
@@ -18,8 +22,8 @@
 
 :root {
   color-scheme: light;
-  --app-fill: rgb(15 22 49 / 0.04);
-  --app-fill-strong: rgb(15 22 49 / 0.08);
+  --app-fill: rgb(20 67 226 / 0.04);
+  --app-fill-strong: rgb(11 20 55 / 0.06);
 }
 
 .dark {
@@ -33,7 +37,7 @@ body {
 }
 
 .viz-root {
-  --viz-surface: #f5f6f7;
+  --viz-surface: #ffffff;
   --viz-text: #0f1631;
   --viz-text-2: #475569;
   --viz-muted: #64748b;
@@ -47,7 +51,7 @@ body {
 }
 
 .dark .viz-root {
-  --viz-surface: #0f1224;
+  --viz-surface: #0f172a;
   --viz-text: #f1f5f9;
   --viz-text-2: #cbd5e1;
   --viz-muted: #94a3b8;

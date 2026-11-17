@@ -17,6 +17,14 @@ class Overview(BaseModel):
     top_skill: SkillShare | None
 
 
+class PublicStats(BaseModel):
+    active_jobs: int
+    new_this_week: int
+    ai_ml_jobs: int
+    junior_jobs: int
+    top_skills: list[SkillShare]
+
+
 class SkillsReport(BaseModel):
     total_jobs: int
     category: str | None

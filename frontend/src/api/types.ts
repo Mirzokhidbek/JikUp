@@ -35,3 +35,12 @@ export type JobQuery = {
 }
 
 export type UserOut = { id: string; email: string }
+
+export type SkillShareOut = { name: string; jobs: number; share: number }
+export type PublicStats = {
+  active_jobs: number
+  new_this_week: number
+  ai_ml_jobs: number
+  junior_jobs: number
+  top_skills: SkillShareOut[]
+}
