@@ -52,21 +52,28 @@ function HeroArt({ stats }: { stats: PublicStats | undefined }) {
       className="pointer-events-none absolute inset-x-0 top-0 hidden aspect-[1672/941] lg:block"
     >
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1672 941" fill="none">
-        <circle cx="430" cy="560" r="420" stroke="#e3eaff" strokeWidth="1.5" />
-        <circle cx="1330" cy="520" r="470" stroke="#e3eaff" strokeWidth="1.5" />
-        <circle cx="836" cy="1350" r="760" fill="#eef3ff" fillOpacity=".55" />
+        <g className="text-[#e3eaff] dark:text-blue-300/10">
+          <circle cx="430" cy="560" r="420" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="1330" cy="520" r="470" stroke="currentColor" strokeWidth="1.5" />
+        </g>
+        <circle
+          cx="836"
+          cy="1350"
+          r="760"
+          className="fill-[#eef3ff]/55 dark:fill-blue-500/[0.05]"
+        />
       </svg>
       <img
         src={palaceUrl}
         alt=""
-        className="absolute select-none dark:hidden"
-        style={at(0, 440, 470)}
+        className="absolute select-none dark:opacity-70 dark:[filter:brightness(.42)_saturate(1.8)]"
+        style={at(-30, 444, 490)}
       />
       <img
         src={skylineUrl}
         alt=""
-        className="absolute select-none dark:hidden"
-        style={at(1090, 230, 582)}
+        className="absolute select-none dark:opacity-70 dark:[filter:brightness(.42)_saturate(1.8)]"
+        style={at(1231, 190, 640)}
       />
       <span className="absolute text-[#2f7bff]" style={at(1513, 186)}>
         <Sparkle size={30} />
@@ -77,7 +84,7 @@ function HeroArt({ stats }: { stats: PublicStats | undefined }) {
       <span className="absolute size-2 rounded-full bg-[#9ec1ff]" style={at(160, 135)} />
 
       <div
-        className={`${floatCard} flex -rotate-[7deg] items-center gap-4 px-6 py-5`}
+        className={`${floatCard} max-[1499px]:hidden flex -rotate-[7deg] items-center gap-4 px-6 py-5`}
         style={at(190, 180)}
       >
         <BriefcaseBadge size={54} />
@@ -89,7 +96,7 @@ function HeroArt({ stats }: { stats: PublicStats | undefined }) {
         </div>
       </div>
       <div
-        className={`${floatCard} flex -rotate-[9deg] items-center gap-4 px-6 py-5`}
+        className={`${floatCard} max-[1499px]:hidden flex -rotate-[9deg] items-center gap-4 px-6 py-5`}
         style={at(70, 352)}
       >
         <BarsBadge size={44} />
@@ -100,7 +107,10 @@ function HeroArt({ stats }: { stats: PublicStats | undefined }) {
           <p className={`mt-1 text-[14px] ${muted}`}>{t('hero.recall')}</p>
         </div>
       </div>
-      <ul className={`${floatCard} rotate-[8deg] space-y-3 px-6 py-5`} style={at(1405, 252)}>
+      <ul
+        className={`${floatCard} max-[1499px]:hidden rotate-[8deg] space-y-3 px-6 py-5`}
+        style={at(1405, 252)}
+      >
         {(['hero.check1', 'hero.check2', 'hero.check3', 'hero.check4'] as const).map((key) => (
           <li
             key={key}

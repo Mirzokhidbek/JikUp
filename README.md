@@ -102,6 +102,13 @@ Precision dropped because short result lists are now filled to 10 with close mat
 - **Korean UI strings** were written without a native-speaker review.
 - **Deployment.** Behind a reverse proxy, every request appears to come from the proxy's IP, so the rate limiter needs the real client IP forwarded before going public. Set `ENV=production` to turn off the API docs.
 
+## Image credits
+
+The landing page backgrounds in `frontend/src/assets/landing/` (`palace.webp`, `skyline.webp`) are cropped, tinted and (for the skyline) mirrored versions of photos from Wikimedia Commons. The adapted images are shared under the same license, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/):
+
+- [Front view of the Imperial Throne Hall Geunjeongjeon at Gyeongbokgung Palace](https://commons.wikimedia.org/wiki/File:Front_view_of_the_Imperial_Throne_Hall_Geunjeongjeon_at_Gyeongbokgung_Palace_with_blue_sky_in_Seoul.jpg) by Basile Morin
+- [Lotte World Tower and Namsan Tower in Seoul](https://commons.wikimedia.org/wiki/File:Lotte_World_Tower_and_Namsan_Tower_in_Seoul.jpg) by Arturbraun
+
 ## License
 
 No license yet: all rights reserved until one is added.

@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router'
+import { Link, Outlet, useLocation } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import type { MessageKey } from '../i18n/en'
 import { useI18n } from '../i18n/useI18n'
@@ -9,13 +9,10 @@ import { focusRing, muted, primaryButton, secondaryButton } from './ui'
 export const pillPrimary = `${primaryButton} min-h-12 px-6 text-base`
 export const pillSecondary = `${secondaryButton} min-h-12 px-6 text-base`
 
-const NAV: { to: string; label: MessageKey; hash?: string }[] = [
-  { to: '/', label: 'nav.homeLink' },
-  { to: '/search', label: 'nav.search' },
-  { to: '/copilot', label: 'nav.copilot' },
-  { to: '/chat', label: 'nav.chat' },
-  { to: '/analytics', label: 'nav.dashboard' },
-  { to: '/', label: 'nav.about', hash: 'about' },
+// Portal sections live in the dashboard sidebar; the landing header only links its own sections.
+const NAV: { label: MessageKey; hash: string }[] = [
+  { label: 'nav.about', hash: 'about' },
+  { label: 'nav.faq', hash: 'faq' },
 ]
 
 const navItem = (active: boolean) =>
@@ -43,27 +40,19 @@ export default function PublicLayout() {
           <Logo responsive />
           <nav aria-label={t('nav.main')} className="mx-auto hidden xl:block">
             <ul className="flex items-center gap-4">
-              {NAV.map(({ to, label, hash: target }) => {
-                const active =
-                  to === '/' && pathname === '/' && (hash || '') === (target ? `#${target}` : '')
-                return (
-                  <li key={label}>
-                    {to === '/' ? (
-                      <Link
-                        to={{ pathname: '/', hash: target ?? '' }}
-                        aria-current={active ? 'page' : undefined}
-                        className={navItem(active)}
-                      >
-                        {t(label)}
-                      </Link>
-                    ) : (
-                      <NavLink to={to} className={({ isActive }) => navItem(isActive)}>
-                        {t(label)}
-                      </NavLink>
-                    )}
-                  </li>
-                )
-              })}
+              {NAV.map(({ label, hash: target }) => (
+                <li key={label}>
+                  <Link
+                    to={{ pathname: '/', hash: target }}
+                    aria-current={
+                      pathname === '/' && hash === `#${target}` ? 'location' : undefined
+                    }
+                    className={navItem(pathname === '/' && hash === `#${target}`)}
+                  >
+                    {t(label)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
           <div className="ml-auto flex items-center gap-2 sm:gap-3 xl:ml-0">
@@ -99,7 +88,21 @@ export default function PublicLayout() {
         <div
           className={`flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between ${muted}`}
         >
-          <p>© 2026 JikUp · {t('footer.note')}</p>
+          <div className="space-y-1">
+            <p>© 2026 JikUp · {t('footer.note')}</p>
+            <p className="text-xs">
+              Photos: Basile Morin, Arturbraun / Wikimedia Commons,{' '}
+              <a
+                href="https://creativecommons.org/licenses/by-sa/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-ink dark:hover:text-white"
+              >
+                CC BY-SA 4.0
+              </a>{' '}
+              (cropped, tinted, mirrored)
+            </p>
+          </div>
           <ul className="flex gap-1">
             <li>
               <Link to={{ pathname: '/', hash: 'about' }} className={navItem(false)}>
