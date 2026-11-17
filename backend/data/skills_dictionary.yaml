@@ -1,0 +1,180 @@
+# Aliases match case-insensitively at word boundaries.
+# case_sensitive: true is for names that are also common words or letters (Go, R, C).
+
+Language:
+  - {name: Python, aliases: [python3, 파이썬]}
+  - {name: Java, aliases: [자바]}
+  - {name: JavaScript, aliases: [JS, ES6, 자바스크립트]}
+  - {name: TypeScript, aliases: [TS, 타입스크립트]}
+  - {name: Go, aliases: [Golang, 고랭], case_sensitive: true}
+  - {name: Kotlin, aliases: [코틀린]}
+  - {name: Swift, aliases: [스위프트]}
+  - {name: C, aliases: [C언어], case_sensitive: true}
+  - {name: C++, aliases: [cpp, 씨플플]}
+  - {name: C#, aliases: [csharp, 씨샵]}
+  - {name: Rust, aliases: [러스트]}
+  - {name: Scala, aliases: [스칼라]}
+  - {name: Ruby, aliases: [루비]}
+  - {name: PHP, aliases: []}
+  - {name: R, aliases: [R언어], case_sensitive: true}
+  - {name: Dart, aliases: [다트]}
+  - {name: Elixir, aliases: []}
+  - {name: Shell Script, aliases: [Bash, 쉘스크립트, 셸 스크립트]}
+  - {name: SQL, aliases: []}
+
+Backend:
+  - {name: Spring, aliases: [Spring Framework, 스프링]}
+  - {name: Spring Boot, aliases: [스프링부트]}
+  - {name: JPA, aliases: [Hibernate]}
+  - {name: MyBatis, aliases: [마이바티스]}
+  - {name: QueryDSL, aliases: []}
+  - {name: Django, aliases: [장고]}
+  - {name: FastAPI, aliases: []}
+  - {name: Flask, aliases: [플라스크]}
+  - {name: Node.js, aliases: [NodeJS, Node]}
+  - {name: NestJS, aliases: [Nest.js, 네스트]}
+  - {name: Express.js, aliases: [ExpressJS]}
+  - {name: Ruby on Rails, aliases: [Rails, RoR]}
+  - {name: Laravel, aliases: [라라벨]}
+  - {name: ASP.NET, aliases: [.NET, dotnet, 닷넷]}
+  - {name: gRPC, aliases: []}
+  - {name: GraphQL, aliases: []}
+  - {name: REST API, aliases: [RESTful, RESTful API]}
+  - {name: Kafka, aliases: [Apache Kafka, 카프카]}
+  - {name: RabbitMQ, aliases: []}
+  - {name: MSA, aliases: [Microservices, 마이크로서비스]}
+
+Frontend:
+  - {name: React, aliases: [React.js, ReactJS, 리액트]}
+  - {name: Next.js, aliases: [NextJS, 넥스트]}
+  - {name: Vue.js, aliases: [Vue, VueJS, 뷰]}
+  - {name: Nuxt.js, aliases: [Nuxt]}
+  - {name: Angular, aliases: [앵귤러]}
+  - {name: Svelte, aliases: [SvelteKit]}
+  - {name: HTML, aliases: [HTML5]}
+  - {name: CSS, aliases: [CSS3]}
+  - {name: Sass, aliases: [SCSS]}
+  - {name: Tailwind CSS, aliases: [Tailwind]}
+  - {name: Redux, aliases: [Redux Toolkit]}
+  - {name: Zustand, aliases: []}
+  - {name: React Query, aliases: [TanStack Query]}
+  - {name: Webpack, aliases: [웹팩]}
+  - {name: Vite, aliases: []}
+  - {name: jQuery, aliases: [제이쿼리]}
+  - {name: Storybook, aliases: []}
+
+Mobile:
+  - {name: Android, aliases: [안드로이드]}
+  - {name: iOS, aliases: []}
+  - {name: React Native, aliases: [리액트 네이티브]}
+  - {name: Flutter, aliases: [플러터]}
+  - {name: SwiftUI, aliases: []}
+  - {name: Jetpack Compose, aliases: []}
+
+AI/ML:
+  - {name: Machine Learning, aliases: [ML, 머신러닝, 기계학습]}
+  - {name: Deep Learning, aliases: [DL, 딥러닝]}
+  - {name: PyTorch, aliases: [파이토치]}
+  - {name: TensorFlow, aliases: [텐서플로우, 텐서플로]}
+  - {name: Keras, aliases: [케라스]}
+  - {name: scikit-learn, aliases: [sklearn, 사이킷런]}
+  - {name: Gradient Boosting, aliases: [XGBoost, LightGBM, CatBoost]}
+  - {name: NLP, aliases: [자연어처리, Natural Language Processing]}
+  - {name: Computer Vision, aliases: [컴퓨터 비전, 영상처리]}
+  - {name: LLM, aliases: [Large Language Model, 대규모 언어 모델, 거대언어모델]}
+  - {name: RAG, aliases: [Retrieval-Augmented Generation, 검색증강생성]}
+  - {name: LangChain, aliases: [랭체인]}
+  - {name: LlamaIndex, aliases: []}
+  - {name: Hugging Face, aliases: [Transformers, 허깅페이스]}
+  - {name: Prompt Engineering, aliases: [프롬프트 엔지니어링]}
+  - {name: Fine-tuning, aliases: [Finetuning, 파인튜닝, 미세조정]}
+  - {name: MLOps, aliases: []}
+  - {name: MLflow, aliases: []}
+  - {name: Kubeflow, aliases: []}
+  - {name: OpenCV, aliases: []}
+  - {name: YOLO, aliases: []}
+  - {name: CUDA, aliases: []}
+  - {name: Reinforcement Learning, aliases: [RL, 강화학습]}
+  - {name: Recommender Systems, aliases: [추천시스템]}
+  - {name: Vector Database, aliases: [Vector DB, 벡터DB, 벡터 데이터베이스]}
+
+Data:
+  - {name: Pandas, aliases: [판다스]}
+  - {name: NumPy, aliases: [넘파이]}
+  - {name: Spark, aliases: [Apache Spark, PySpark, 스파크]}
+  - {name: Hadoop, aliases: [하둡]}
+  - {name: Airflow, aliases: [Apache Airflow, 에어플로우]}
+  - {name: Flink, aliases: [Apache Flink]}
+  - {name: dbt, aliases: []}
+  - {name: Hive, aliases: []}
+  - {name: BigQuery, aliases: [빅쿼리]}
+  - {name: Snowflake, aliases: []}
+  - {name: Redshift, aliases: []}
+  - {name: Databricks, aliases: []}
+  - {name: Tableau, aliases: [태블로]}
+  - {name: Power BI, aliases: []}
+  - {name: ETL, aliases: [ELT, 데이터 파이프라인]}
+  - {name: Data Warehouse, aliases: [DW, 데이터 웨어하우스]}
+  - {name: Statistics, aliases: [통계, 통계학]}
+  - {name: A/B Testing, aliases: [AB테스트, A/B 테스트]}
+
+Database:
+  - {name: MySQL, aliases: []}
+  - {name: PostgreSQL, aliases: [Postgres, 포스트그레스]}
+  - {name: Oracle, aliases: [오라클]}
+  - {name: MS SQL Server, aliases: [MSSQL, SQL Server]}
+  - {name: MariaDB, aliases: []}
+  - {name: MongoDB, aliases: [몽고DB]}
+  - {name: Redis, aliases: [레디스]}
+  - {name: Elasticsearch, aliases: [ELK, 엘라스틱서치]}
+  - {name: DynamoDB, aliases: []}
+  - {name: Cassandra, aliases: []}
+  - {name: SQLite, aliases: []}
+  - {name: pgvector, aliases: []}
+
+DevOps:
+  - {name: AWS, aliases: [Amazon Web Services, 아마존 웹 서비스]}
+  - {name: GCP, aliases: [Google Cloud, Google Cloud Platform]}
+  - {name: Azure, aliases: [Microsoft Azure, 애저]}
+  - {name: NCP, aliases: [Naver Cloud, 네이버 클라우드]}
+  - {name: Docker, aliases: [도커]}
+  - {name: Kubernetes, aliases: [k8s, 쿠버네티스]}
+  - {name: Terraform, aliases: [테라폼]}
+  - {name: Ansible, aliases: []}
+  - {name: Helm, aliases: []}
+  - {name: Jenkins, aliases: [젠킨스]}
+  - {name: GitHub Actions, aliases: []}
+  - {name: GitLab CI, aliases: []}
+  - {name: ArgoCD, aliases: []}
+  - {name: CI/CD, aliases: [CICD]}
+  - {name: Linux, aliases: [리눅스, Ubuntu, CentOS]}
+  - {name: Nginx, aliases: [엔진엑스]}
+  - {name: Prometheus, aliases: [프로메테우스]}
+  - {name: Grafana, aliases: [그라파나]}
+  - {name: Datadog, aliases: []}
+  - {name: AWS Lambda, aliases: [Lambda, 람다]}
+  - {name: EC2, aliases: []}
+  - {name: S3, aliases: []}
+  - {name: EKS, aliases: []}
+  - {name: Serverless, aliases: [서버리스]}
+
+Tools:
+  - {name: Git, aliases: [깃]}
+  - {name: GitHub, aliases: [깃허브]}
+  - {name: GitLab, aliases: []}
+  - {name: Jira, aliases: [지라]}
+  - {name: Confluence, aliases: [컨플루언스]}
+  - {name: Figma, aliases: [피그마]}
+  - {name: Slack, aliases: [슬랙]}
+  - {name: Notion, aliases: [노션]}
+
+Practices:
+  - {name: TDD, aliases: [Test-Driven Development, 테스트 주도 개발]}
+  - {name: Unit Testing, aliases: [단위 테스트, 유닛 테스트, JUnit, pytest, Jest]}
+  - {name: Agile, aliases: [Scrum, 애자일, 스크럼]}
+  - {name: Code Review, aliases: [코드 리뷰]}
+  - {name: System Design, aliases: [시스템 설계, 아키텍처 설계]}
+  - {name: Data Structures and Algorithms, aliases: [알고리즘, 자료구조]}
+  - {name: Network, aliases: [TCP/IP, 네트워크]}
+  - {name: Security, aliases: [보안, 정보보안]}
+  - {name: OOP, aliases: [객체지향]}

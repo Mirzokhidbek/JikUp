@@ -1,17 +1,16 @@
-from typing import Any
-
+from arq import cron
 from arq.connections import RedisSettings
 
 from app.core.config import get_settings
-from app.core.logging import setup_logging
+from app.workers.tasks import collect_saramin, collect_seed
 
-setup_logging(get_settings().log_level)
-
-
-async def ping(ctx: dict[str, Any]) -> str:
-    return "pong"
+COLLECT_HOURS = {0, 6, 12, 18}
 
 
 class WorkerSettings:
-    functions = [ping]
+    functions = [collect_seed, collect_saramin]
+    cron_jobs = [cron(collect_saramin, hour=COLLECT_HOURS, minute=0, unique=True)]
     redis_settings = RedisSettings.from_dsn(get_settings().redis_url)
+    job_timeout = 1800
+    max_tries = 1
+    keep_result = 60

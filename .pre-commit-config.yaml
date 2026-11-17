@@ -24,7 +24,7 @@ repos:
         pass_filenames: false
       - id: backend-mypy
         name: backend mypy
-        entry: bash -c 'cd backend && uv run mypy app tests alembic'
+        entry: bash -c 'cd backend && uv run mypy app tests alembic scripts'
         language: system
         files: ^backend/.*\.py$
         pass_filenames: false

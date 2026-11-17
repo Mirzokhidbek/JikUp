@@ -35,6 +35,7 @@ jobs:
           --health-retries 10
     env:
       DATABASE_URL: postgresql+asyncpg://jikup:jikup@localhost:5432/jikup
+      TEST_DATABASE_URL: postgresql+asyncpg://jikup:jikup@localhost:5432/jikup
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -45,7 +46,7 @@ jobs:
       - run: uv sync --frozen
       - run: uv run ruff check .
       - run: uv run ruff format --check .
-      - run: uv run mypy app tests alembic
+      - run: uv run mypy app tests alembic scripts
       - run: uv run pytest
       - run: uv run alembic upgrade head
       - run: uv run alembic check

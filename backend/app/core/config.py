@@ -1,12 +1,15 @@
 from functools import lru_cache
+from pathlib import Path
 from typing import Annotated
 
 from pydantic import SecretStr, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
+ROOT_ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
+
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=ROOT_ENV_FILE, extra="ignore")
 
     env: str = "development"
     log_level: str = "INFO"
@@ -16,11 +19,14 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
 
     gemini_api_key: SecretStr = SecretStr("")
-    gemini_chat_model: str = "gemini-2.5-flash"
-    gemini_parser_model: str = "gemini-2.5-flash-lite"
+    gemini_chat_model: str = "gemini-3.8-flash"
+    gemini_parser_model: str = "gemini-3.5-flash-lite"
     gemini_embed_model: str = "gemini-embedding-001"
 
     saramin_access_key: SecretStr = SecretStr("")
+    saramin_max_pages: int = 10
+
+    admin_token: SecretStr = SecretStr("")
 
     @field_validator("cors_origins", mode="before")
     @classmethod
