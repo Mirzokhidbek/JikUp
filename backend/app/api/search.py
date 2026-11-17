@@ -3,13 +3,13 @@ import logging
 from collections.abc import AsyncIterator
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
 from app.core.db import get_session
-from app.core.llm import get_embedder, get_llm_client
+from app.core.llm import LLM, get_embedder
 from app.rag.answer import stream_answer
 from app.rag.embed import Embedder
 from app.rag.search import search
@@ -20,15 +20,6 @@ log = logging.getLogger(__name__)
 
 Session = Annotated[AsyncSession, Depends(get_session)]
 EmbedderDep = Annotated[Embedder | None, Depends(get_embedder)]
-
-
-def require_llm(client: Annotated[Any, Depends(get_llm_client)]) -> Any:
-    if client is None:
-        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "LLM is not configured")
-    return client
-
-
-LLM = Annotated[Any, Depends(require_llm)]
 
 
 def sse(event: str, data: object) -> str:

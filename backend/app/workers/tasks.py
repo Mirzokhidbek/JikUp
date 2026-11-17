@@ -13,6 +13,7 @@ from app.core.db import SessionLocal
 from app.rag.embed import GeminiEmbedder
 from app.services.indexing import chunk_pending_jobs, embed_pending_chunks
 from app.services.ingest import run_collection
+from app.services.resumes import purge_expired
 
 log = logging.getLogger(__name__)
 
@@ -56,3 +57,10 @@ async def index_jobs(ctx: dict[str, Any]) -> dict[str, int]:
         embedded = await embed_pending_chunks(session, embedder)
     log.info("index_jobs finished: chunked=%d embedded=%d", chunked, embedded)
     return {"chunked": chunked, "embedded": embedded}
+
+
+async def purge_resumes(ctx: dict[str, Any]) -> dict[str, int]:
+    async with SessionLocal() as session:
+        deleted = await purge_expired(session)
+    log.info("purge_resumes finished: deleted=%d", deleted)
+    return {"deleted": deleted}

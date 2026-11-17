@@ -1,6 +1,6 @@
 import math
 from collections.abc import Sequence
-from typing import Literal, Protocol
+from typing import Any, Literal, Protocol, cast
 
 from google import genai
 from google.genai import errors, types
@@ -44,7 +44,7 @@ class GeminiEmbedder:
     async def _embed_batch(self, texts: list[str], task: EmbedTask) -> list[list[float]]:
         response = await self._client.aio.models.embed_content(
             model=self._model,
-            contents=texts,
+            contents=cast(Any, texts),
             config=types.EmbedContentConfig(task_type=task, output_dimensionality=self._dim),
         )
         vectors = [normalize(e.values or []) for e in response.embeddings or []]
