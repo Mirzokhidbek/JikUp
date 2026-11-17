@@ -1,5 +1,6 @@
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import ForeignKey, Index, UniqueConstraint
+from sqlalchemy import ForeignKey, Index, UniqueConstraint, text
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -18,12 +19,7 @@ class JobChunk(Base):
             postgresql_with={"m": 16, "ef_construction": 64},
             postgresql_ops={"embedding": "vector_cosine_ops"},
         ),
-        Index(
-            "ix_job_chunks_content_trgm",
-            "content",
-            postgresql_using="gin",
-            postgresql_ops={"content": "gin_trgm_ops"},
-        ),
+        Index("ix_job_chunks_search_tokens", "search_tokens", postgresql_using="gin"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -31,4 +27,5 @@ class JobChunk(Base):
     chunk_index: Mapped[int]
     section: Mapped[str]
     content: Mapped[str]
+    search_tokens: Mapped[str] = mapped_column(TSVECTOR, server_default=text("''::tsvector"))
     embedding: Mapped[list[float] | None] = mapped_column(Vector(EMBED_DIM))

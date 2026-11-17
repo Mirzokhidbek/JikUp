@@ -4,6 +4,7 @@ import re
 import unicodedata
 
 INTRO = "intro"
+NORMALIZE_VERSION = 2
 
 _BREAK_TAGS = re.compile(r"<\s*(?:br|li|/p|/li|/div|/h[1-6]|/tr)\b[^>]*>", re.IGNORECASE)
 _TAGS = re.compile(r"</?[a-zA-Z][^>]*>")
@@ -39,29 +40,27 @@ _CITY_ALIASES = {
     "제주특별자치도": "제주",
 }
 
-_SECTION_HEADINGS = {
-    "주요업무": "주요업무",
-    "담당업무": "주요업무",
-    "업무내용": "주요업무",
-    "주요역할": "주요업무",
-    "자격요건": "자격요건",
-    "필수요건": "자격요건",
-    "필수사항": "자격요건",
-    "필수조건": "자격요건",
-    "자격조건": "자격요건",
-    "지원자격": "자격요건",
-    "지원요건": "자격요건",
-    "필요역량": "자격요건",
-    "우대사항": "우대사항",
-    "우대조건": "우대사항",
-    "우대요건": "우대사항",
-    "우대역량": "우대사항",
-    "복지": "복지",
-    "혜택및복지": "복지",
-    "복리후생": "복지",
-    "혜택": "복지",
-}
-_HEADING_NOISE = re.compile(r"[\s\[\]【】()<>■□●○▶▷◆◇#*:：\-•·]")
+_HEADING_WORDS = (
+    "복리후생 주요 담당 업무 내용 역할 자격 요건 필수 사항 조건 지원 필요 역량 "
+    "우대 추가 복지 혜택 보상 근무 사내 제도 및 "
+    "roles role responsibilities responsibility duties key what you will do job description "
+    "requirements requirement qualifications qualification required minimum must "
+    "preferred nice to have plus bonus points benefits benefit perks welfare and"
+).split()
+_HEADING_ONLY = re.compile("(?:" + "|".join(sorted(_HEADING_WORDS, key=len, reverse=True)) + ")+")
+_SECTION_RULES = (
+    ("우대사항", re.compile("우대|preferred|nice|plus|bonus")),
+    ("복지", re.compile("복지|혜택|보상|복리후생|근무|제도|benefit|perk|welfare")),
+    (
+        "자격요건",
+        re.compile("자격|필수|요건|역량|지원|조건|필요|requirement|qualification|required|must"),
+    ),
+    ("주요업무", re.compile("업무|역할|담당|주요|role|responsibilit|duties|job|what")),
+)
+_HEADING_NUMBERING = re.compile(r"^\s*\d+\s*[.)]")
+_HEADING_NOISE = re.compile(r"[\s\[\]【】()<>■□●○▶▷◆◇#*:：\-•·&/]")
+_LONG_LINE = 120
+_INLINE_BREAK = re.compile(r"\s+(?=[■□●○▶▷◆◇]|\[[^\]\n]{2,20}\]|-\s)")
 _INLINE_HEADING = re.compile(r"^(.{2,12}?)\s*[:：]\s*(.+)$")
 
 _CORP_MARKERS = re.compile(r"\(주\)|㈜|주식회사|\(유\)|유한회사|\(사\)")
@@ -114,13 +113,24 @@ def parse_location(text: str | None) -> tuple[str | None, str | None]:
 
 
 def _heading(line: str) -> str | None:
-    return _SECTION_HEADINGS.get(_HEADING_NOISE.sub("", line))
+    core = _HEADING_NOISE.sub("", _HEADING_NUMBERING.sub("", line)).lower()
+    if not 2 <= len(core) <= 30 or not _HEADING_ONLY.fullmatch(core):
+        return None
+    return next((section for section, rule in _SECTION_RULES if rule.search(core)), None)
+
+
+def _lines(text: str) -> list[str]:
+    lines: list[str] = []
+    for line in text.splitlines():
+        parts = _INLINE_BREAK.split(line) if len(line) > _LONG_LINE else [line]
+        lines.extend(part.strip() for part in parts if part.strip())
+    return lines
 
 
 def split_sections(text: str) -> dict[str, str]:
     sections: dict[str, list[str]] = {}
     current = INTRO
-    for line in text.splitlines():
+    for line in _lines(text):
         if heading := _heading(line):
             current = heading
             continue
@@ -137,5 +147,11 @@ def normalize_company_name(name: str) -> str:
 
 
 def content_hash(title: str, company: str, description_clean: str) -> str:
-    payload = "\x1f".join((title.strip(), normalize_company_name(company), description_clean))
+    parts = (
+        str(NORMALIZE_VERSION),
+        title.strip(),
+        normalize_company_name(company),
+        description_clean,
+    )
+    payload = "\x1f".join(parts)
     return hashlib.sha256(payload.encode()).hexdigest()

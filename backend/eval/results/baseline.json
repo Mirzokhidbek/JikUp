@@ -1,0 +1,215 @@
+{
+  "summary": {
+    "cases": 20,
+    "recall@10": 0.932,
+    "precision@10": 0.795,
+    "hit@1": 1,
+    "filter_accuracy": 0.95,
+    "relaxed_cases": 0,
+    "cases_without_relevant": 0
+  },
+  "cases": [
+    {
+      "query": "Seulda Python bilan ishlaydigan, 2 yildan kam tajriba so'raydigan AI ishlarini top",
+      "relevant": 9,
+      "recall": 0.7777777777777778,
+      "precision": 0.7,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "React frontend developer jobs in Seoul",
+      "relevant": 6,
+      "recall": 1.0,
+      "precision": 0.6,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "판교 쿠버네티스 DevOps 엔지니어",
+      "relevant": 13,
+      "recall": 0.8,
+      "precision": 0.8,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Data engineer with Spark and Airflow",
+      "relevant": 23,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Busanda backend dasturchi ishlari",
+      "relevant": 2,
+      "recall": 1.0,
+      "precision": 0.2,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "LLM RAG 서비스 개발, LangChain 경험",
+      "relevant": 22,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "iOS developer with Swift",
+      "relevant": 10,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Android Kotlin app developer",
+      "relevant": 12,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Tajribasiz data analyst, SQL bilaman",
+      "relevant": 8,
+      "recall": 1.0,
+      "precision": 0.8,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "신입 프론트엔드 개발자",
+      "relevant": 5,
+      "recall": 1.0,
+      "precision": 0.5,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "MLOps engineer with MLflow or Kubeflow",
+      "relevant": 32,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Java Spring backend developer in Seoul",
+      "relevant": 4,
+      "recall": 1.0,
+      "precision": 0.8,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Daejeonda AI tadqiqotchi yoki ML muhandis",
+      "relevant": 13,
+      "recall": 0.4,
+      "precision": 0.8,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Flutter mobile developer",
+      "relevant": 7,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Go 언어 백엔드 개발자",
+      "relevant": 7,
+      "recall": 1.0,
+      "precision": 0.7,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Infrastructure engineer with AWS and Terraform",
+      "relevant": 26,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Seulda amaliyot (intern) dasturchi",
+      "relevant": 11,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Computer vision engineer with PyTorch",
+      "relevant": 5,
+      "recall": 0.8,
+      "precision": 0.4,
+      "hit_at_1": true,
+      "filters_ok": false,
+      "filter_errors": [
+        "skills: expected ['Computer Vision', 'PyTorch'], got ['PyTorch']"
+      ],
+      "relaxed": []
+    },
+    {
+      "query": "부산 데이터 분석가",
+      "relevant": 7,
+      "recall": 0.8571428571428571,
+      "precision": 0.6,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    },
+    {
+      "query": "Full-stack developer, Node.js and React, startup",
+      "relevant": 20,
+      "recall": 1.0,
+      "precision": 1.0,
+      "hit_at_1": true,
+      "filters_ok": true,
+      "filter_errors": [],
+      "relaxed": []
+    }
+  ]
+}

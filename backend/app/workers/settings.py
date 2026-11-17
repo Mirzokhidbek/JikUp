@@ -2,13 +2,13 @@ from arq import cron
 from arq.connections import RedisSettings
 
 from app.core.config import get_settings
-from app.workers.tasks import collect_saramin, collect_seed
+from app.workers.tasks import collect_saramin, collect_seed, index_jobs
 
 COLLECT_HOURS = {0, 6, 12, 18}
 
 
 class WorkerSettings:
-    functions = [collect_seed, collect_saramin]
+    functions = [collect_seed, collect_saramin, index_jobs]
     cron_jobs = [cron(collect_saramin, hour=COLLECT_HOURS, minute=0, unique=True)]
     redis_settings = RedisSettings.from_dsn(get_settings().redis_url)
     job_timeout = 1800

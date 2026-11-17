@@ -89,7 +89,7 @@ def to_record(index: int, posting: SeedPosting, now: datetime) -> dict[str, str]
         "experience": posting.experience,
         "employment_type": posting.employment_type,
         "salary": posting.salary,
-        "description": posting.description,
+        "description": posting.description.replace("\\n", "\n"),
         "posted_at": (now - timedelta(days=posting.posted_days_ago)).isoformat(),
         "deadline_at": (now + timedelta(days=posting.deadline_in_days)).isoformat(),
     }

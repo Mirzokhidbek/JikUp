@@ -1,0 +1,100 @@
+# RAG eval set. Each case has:
+#   expected: filters the query parser should extract (only listed keys are checked;
+#             skills means "at least these skills").
+#   relevant: a rule that marks postings as relevant. Relevant postings are computed
+#             from the database, so the labels stay transparent and reproducible.
+#             city / employment_type: exact; experience_max: posting minimum <= value
+#             or no minimum; skills_any: has at least one; title_any: title contains
+#             one of the words (case-insensitive).
+
+- query: "Seulda Python bilan ishlaydigan, 2 yildan kam tajriba so'raydigan AI ishlarini top"
+  expected: {city: 서울, skills: [Python], experience_max: 2}
+  relevant:
+    city: 서울
+    experience_max: 2
+    skills_any: [Python]
+    title_any: [AI, ML, 머신러닝, 딥러닝, LLM, MLOps, 인공지능, 데이터 사이언]
+
+- query: "React frontend developer jobs in Seoul"
+  expected: {city: 서울, skills: [React]}
+  relevant: {city: 서울, skills_any: [React], title_any: [프론트, Frontend, FE, 웹]}
+
+- query: "판교 쿠버네티스 DevOps 엔지니어"
+  expected: {city: 경기, skills: [Kubernetes]}
+  relevant:
+    city: 경기
+    skills_any: [Kubernetes]
+    title_any: [DevOps, SRE, 인프라, 플랫폼, 클라우드, 데브옵스]
+
+- query: "Data engineer with Spark and Airflow"
+  expected: {skills: [Airflow, Spark]}
+  relevant:
+    skills_any: [Spark, Airflow]
+    title_any: [데이터 엔지니어, Data Engineer, 데이터 플랫폼, 파이프라인]
+
+- query: "Busanda backend dasturchi ishlari"
+  expected: {city: 부산}
+  relevant: {city: 부산, title_any: [백엔드, 서버, Backend]}
+
+- query: "LLM RAG 서비스 개발, LangChain 경험"
+  expected: {skills: [LangChain, LLM, RAG]}
+  relevant: {skills_any: [LangChain, RAG]}
+
+- query: "iOS developer with Swift"
+  expected: {skills: [Swift]}
+  relevant: {skills_any: [Swift, iOS, SwiftUI], title_any: [iOS, 모바일, 앱]}
+
+- query: "Android Kotlin app developer"
+  expected: {skills: [Kotlin]}
+  relevant: {skills_any: [Android, Kotlin], title_any: [Android, 안드로이드, 모바일, 앱]}
+
+- query: "Tajribasiz data analyst, SQL bilaman"
+  expected: {experience_max: 0, skills: [SQL]}
+  relevant: {experience_max: 0, skills_any: [SQL], title_any: [분석, Analyst, 데이터]}
+
+- query: "신입 프론트엔드 개발자"
+  expected: {experience_max: 0}
+  relevant: {experience_max: 0, title_any: [프론트, Frontend, FE, 웹]}
+
+- query: "MLOps engineer with MLflow or Kubeflow"
+  expected: {skills: [Kubeflow, MLflow]}
+  relevant: {skills_any: [MLflow, Kubeflow, MLOps]}
+
+- query: "Java Spring backend developer in Seoul"
+  expected: {city: 서울, skills: [Java]}
+  relevant:
+    city: 서울
+    skills_any: [Java, Spring, Spring Boot]
+    title_any: [백엔드, 서버, Backend]
+
+- query: "Daejeonda AI tadqiqotchi yoki ML muhandis"
+  expected: {city: 대전}
+  relevant: {city: 대전, title_any: [AI, ML, 연구, 머신러닝, 딥러닝, 인공지능]}
+
+- query: "Flutter mobile developer"
+  expected: {skills: [Flutter]}
+  relevant: {skills_any: [Flutter]}
+
+- query: "Go 언어 백엔드 개발자"
+  expected: {skills: [Go]}
+  relevant: {skills_any: [Go], title_any: [백엔드, 서버, Backend]}
+
+- query: "Infrastructure engineer with AWS and Terraform"
+  expected: {skills: [AWS, Terraform]}
+  relevant: {skills_any: [Terraform], title_any: [인프라, DevOps, SRE, 클라우드, 플랫폼]}
+
+- query: "Seulda amaliyot (intern) dasturchi"
+  expected: {city: 서울, employment_type: 인턴}
+  relevant: {city: 서울, employment_type: 인턴}
+
+- query: "Computer vision engineer with PyTorch"
+  expected: {skills: [Computer Vision, PyTorch]}
+  relevant: {skills_any: [Computer Vision, OpenCV, YOLO]}
+
+- query: "부산 데이터 분석가"
+  expected: {city: 부산}
+  relevant: {city: 부산, title_any: [분석, Analyst, 데이터]}
+
+- query: "Full-stack developer, Node.js and React, startup"
+  expected: {skills: [Node.js, React]}
+  relevant: {skills_any: [Node.js], title_any: [풀스택, Full-stack, Fullstack, Full Stack]}

@@ -46,7 +46,7 @@ jobs:
       - run: uv sync --frozen
       - run: uv run ruff check .
       - run: uv run ruff format --check .
-      - run: uv run mypy app tests alembic scripts
+      - run: uv run mypy app tests alembic scripts eval
       - run: uv run pytest
       - run: uv run alembic upgrade head
       - run: uv run alembic check

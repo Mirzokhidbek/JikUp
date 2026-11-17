@@ -82,20 +82,24 @@ async def list_jobs(session: AsyncSession, filters: JobFilters, limit: int, offs
             )
         ).scalars()
     )
-    if not page_ids:
-        return JobPage(total=total, items=[])
+    return JobPage(total=total, items=await load_summaries(session, page_ids))
 
+
+async def load_summaries(session: AsyncSession, job_ids: list[int]) -> list[JobSummary]:
+    if not job_ids:
+        return []
     rows = await session.execute(
         select(Job, Company.name)
         .outerjoin(Company, Company.id == Job.company_id)
-        .where(Job.id.in_(page_ids))
+        .where(Job.id.in_(job_ids))
     )
     by_id = {job.id: (job, company) for job, company in rows.all()}
-    skills = await _skills_by_job(session, page_ids)
-    items = [
-        JobSummary.model_validate(_summary_fields(*by_id[i], skills.get(i, []))) for i in page_ids
+    skills = await _skills_by_job(session, job_ids)
+    return [
+        JobSummary.model_validate(_summary_fields(*by_id[i], skills.get(i, [])))
+        for i in job_ids
+        if i in by_id
     ]
-    return JobPage(total=total, items=items)
 
 
 async def get_job(session: AsyncSession, job_id: int) -> JobDetail | None:

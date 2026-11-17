@@ -121,7 +121,51 @@ def test_content_hash_ignores_company_suffix_and_detects_changes() -> None:
         ("우대 요건", "우대사항"),
         ("주요 역할", "주요업무"),
         ("혜택", "복지"),
+        ("[필수자격]", "자격요건"),
+        ("■ 필수역량", "자격요건"),
+        ("■ 필수 자격요건", "자격요건"),
+        ("■ 지원조건", "자격요건"),
+        ("1. 담당 업무", "주요업무"),
+        ("2) 필수 요건", "자격요건"),
+        ("3. 우대 사항", "우대사항"),
+        ("[담당 역할]", "주요업무"),
+        ("[업무내용]", "주요업무"),
+        ("■ 추가 우대역량", "우대사항"),
+        ("[우대조건]", "우대사항"),
+        ("■ 복지 및 근무조건", "복지"),
+        ("[복지 및 보상]", "복지"),
+        ("■ 혜택 및 복지:", "복지"),
+        ("■ Role & Responsibilities", "주요업무"),
+        ("■ Requirements", "자격요건"),
+        ("[Preferred Qualifications]", "우대사항"),
+        ("Nice to have", "우대사항"),
+        ("■ Benefits", "복지"),
     ],
 )
 def test_split_sections_heading_variants(heading: str, section: str) -> None:
     assert split_sections(f"{heading}\n내용") == {section: "내용"}
+
+
+@pytest.mark.parametrize(
+    "line",
+    ["Python 3년 이상", "- 필수 역량을 갖춘 분", "근무시간: 10시~19시", "및", "사항"],
+)
+def test_normal_lines_are_not_headings(line: str) -> None:
+    assert split_sections(line) == {"intro": line}
+
+
+def test_single_line_posting_is_split_at_markers() -> None:
+    text = (
+        "회사 소개 문장입니다. 대규모 트래픽 환경에서 일할 엔지니어를 모십니다. "
+        "[주요업무] - Java 기반 결제 시스템 개발 - 정산 파이프라인 최적화 "
+        "[자격요건] - 백엔드 개발 경력 3년 이상 - Spring 실무 경험 "
+        "■ 우대사항 - AWS 운영 경험 - Kafka 사용 경험 그리고 긴 설명이 이어집니다"
+    )
+    sections = split_sections(text)
+    assert sections["주요업무"] == "- Java 기반 결제 시스템 개발\n- 정산 파이프라인 최적화"
+    assert sections["자격요건"] == "- 백엔드 개발 경력 3년 이상\n- Spring 실무 경험"
+    assert sections["우대사항"].startswith("- AWS 운영 경험")
+
+
+def test_short_line_with_dash_is_not_split() -> None:
+    assert split_sections("경력 1 - 3년") == {"intro": "경력 1 - 3년"}
