@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ApiError } from '../api/client'
 import { streamSse, type SseEvent } from '../api/sse'
+import { useI18n } from '../i18n/useI18n'
 
 export type StreamStatus = 'idle' | 'streaming' | 'done' | 'error' | 'stopped'
 
 export function useEventStream() {
+  const { t } = useI18n()
   const [status, setStatus] = useState<StreamStatus>('idle')
   const [error, setError] = useState<string | null>(null)
   const controller = useRef<AbortController | null>(null)
@@ -24,11 +26,17 @@ export function useEventStream() {
           setStatus('stopped')
           return
         }
-        setError(err instanceof ApiError ? err.message : 'Connection lost')
+        if (err instanceof ApiError) {
+          const known = { 429: 'common.rateLimited', 503: 'common.llmOff' } as const
+          const key = known[err.status as keyof typeof known]
+          setError(key ? t(key) : err.message)
+        } else {
+          setError(t('common.error'))
+        }
         setStatus('error')
       }
     },
-    [],
+    [t],
   )
 
   const stop = useCallback(() => controller.current?.abort(), [])

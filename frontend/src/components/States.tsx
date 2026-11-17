@@ -1,3 +1,4 @@
+import { ApiError } from '../api/client'
 import { useI18n } from '../i18n/useI18n'
 import { card, focusRing, muted } from './ui'
 
@@ -19,15 +20,23 @@ export function ListSkeleton({ rows = 4 }: { rows?: number }) {
   )
 }
 
-export function ErrorState({ message, onRetry }: { message?: string; onRetry?: () => void }) {
+type ErrorProps = { message?: string; error?: Error | null; onRetry?: () => void }
+
+export function ErrorState({ message, error, onRetry }: ErrorProps) {
   const { t } = useI18n()
+  const text =
+    error instanceof ApiError && error.status === 429
+      ? t('common.rateLimited')
+      : error instanceof ApiError && error.status === 503
+        ? t('common.llmOff')
+        : (error?.message ?? message)
   return (
     <div
       role="alert"
       className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
     >
       <p className="font-medium">{t('common.error')}</p>
-      {message && <p className="mt-1 text-sm">{message}</p>}
+      {text && <p className="mt-1 text-sm">{text}</p>}
       {onRetry && (
         <button
           type="button"

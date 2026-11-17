@@ -102,7 +102,7 @@ export default function DashboardPage() {
   const o = overview.data
 
   if (overview.isError) {
-    return <ErrorState message={overview.error.message} onRetry={() => void overview.refetch()} />
+    return <ErrorState error={overview.error} onRetry={() => void overview.refetch()} />
   }
 
   return (

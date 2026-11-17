@@ -188,4 +188,7 @@ export const ko: Messages = {
   'market.toCopilot': '코파일럿으로 이동',
   'market.none': '아직 상위 기술이 없습니다.',
   'chat.closeMatch': '유사 공고: 요청한 기술 없음',
+  'common.rateLimited': '요청 한도에 도달했습니다. 잠시 후 다시 시도해 주세요.',
+  'common.llmOff':
+    '이 서버에서는 AI 기능이 꺼져 있습니다 (Gemini API 키 없음). 검색과 대시보드는 사용할 수 있습니다.',
 }

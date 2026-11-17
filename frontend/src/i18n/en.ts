@@ -188,6 +188,9 @@ export const en = {
   'market.toCopilot': 'Go to Copilot',
   'market.none': 'None of the top skills yet.',
   'chat.closeMatch': 'Close match: lacks a requested skill',
+  'common.rateLimited': 'You have reached the request limit. Please wait a little and try again.',
+  'common.llmOff':
+    'AI features are turned off on this server (no Gemini API key). Search and Dashboard still work.',
 } as const
 
 export type MessageKey = keyof typeof en

@@ -47,10 +47,11 @@ jobs:
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy app tests alembic scripts eval
-      - run: uv run pytest
+      # Migrations run first: the test fixtures create tables directly in the same database.
       - run: uv run alembic upgrade head
       - run: uv run alembic check
       - run: uv run alembic downgrade base
+      - run: uv run pytest --cov=app --cov-report=term --cov-fail-under=60
 
   frontend:
     runs-on: ubuntu-latest
@@ -71,4 +72,16 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run format:check
+      - run: npm test
       - run: npm run build
+
+  docker:
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: docker build --tag jikup-backend:ci backend
+      - run: docker build --tag jikup-frontend:ci frontend

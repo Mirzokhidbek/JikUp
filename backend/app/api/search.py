@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import get_settings
 from app.core.db import get_session
 from app.core.llm import LLM, get_embedder
+from app.core.rate_limit import SEARCH, rate_limit
 from app.rag.answer import stream_answer
 from app.rag.embed import Embedder
 from app.rag.search import search
@@ -33,14 +34,14 @@ async def _run_search(
     return await search(session, client, model, embedder, body.query, body.limit)
 
 
-@router.post("/search")
+@router.post("/search", dependencies=[Depends(rate_limit(SEARCH))])
 async def search_jobs(
     body: SearchRequest, session: Session, client: LLM, embedder: EmbedderDep
 ) -> SearchResponse:
     return await _run_search(session, client, embedder, body)
 
 
-@router.post("/chat")
+@router.post("/chat", dependencies=[Depends(rate_limit(SEARCH))])
 async def chat(
     body: SearchRequest, session: Session, client: LLM, embedder: EmbedderDep
 ) -> StreamingResponse:

@@ -6,6 +6,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
+os.environ.setdefault("RATE_LIMIT_ENABLED", "false")
 
 TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
 

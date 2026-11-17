@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import get_settings
 from app.core.db import get_session
 from app.core.llm import LLM
+from app.core.rate_limit import RESUME_UPLOAD, rate_limit
 from app.resumes.parser import parse_resume
 from app.resumes.pdf import MAX_BYTES, ResumeFileError, extract_text
 from app.schemas.resume import ResumeOut
@@ -22,7 +23,9 @@ Session = Annotated[AsyncSession, Depends(get_session)]
 MAX_FILENAME = 200
 
 
-@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "", status_code=status.HTTP_201_CREATED, dependencies=[Depends(rate_limit(RESUME_UPLOAD))]
+)
 async def upload_resume(file: UploadFile, session: Session, client: LLM) -> ResumeOut:
     data = await file.read(MAX_BYTES + 1)
     try:

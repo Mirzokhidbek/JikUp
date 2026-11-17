@@ -11,6 +11,7 @@ repos:
         args: [--maxkb=500]
       - id: check-merge-conflict
       - id: check-yaml
+        args: [--unsafe] # syntax only: Compose files use custom tags (!reset)
       - id: end-of-file-fixer
       - id: trailing-whitespace
 

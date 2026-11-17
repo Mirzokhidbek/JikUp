@@ -196,4 +196,7 @@ export const uz: Messages = {
   'market.toCopilot': "Copilot'ga o'tish",
   'market.none': "Hozircha eng ko'p so'raladiganlardan hech biri yo'q.",
   'chat.closeMatch': "Yaqin variant: so'ralgan ko'nikma yo'q",
+  'common.rateLimited': "So'rovlar chegarasiga yetdingiz. Biroz kutib, qayta urinib ko'ring.",
+  'common.llmOff':
+    "Bu serverda AI funksiyalari o'chirilgan (Gemini kaliti yo'q). Qidiruv va statistika baribir ishlaydi.",
 }

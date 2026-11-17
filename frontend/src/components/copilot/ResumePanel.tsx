@@ -156,8 +156,8 @@ export default function ResumePanel({ state }: { state: ReturnType<typeof useRes
   return (
     <div className="space-y-3">
       <Dropzone onFile={(file) => upload.mutate(file)} busy={upload.isPending} />
-      {upload.isError && <ErrorState message={upload.error.message} />}
-      {resume.isError && state.resumeId && <ErrorState message={resume.error.message} />}
+      {upload.isError && <ErrorState error={upload.error} />}
+      {resume.isError && state.resumeId && <ErrorState error={resume.error} />}
     </div>
   )
 }

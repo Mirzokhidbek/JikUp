@@ -3,14 +3,16 @@ from contextlib import asynccontextmanager
 
 from arq import create_pool
 from arq.connections import RedisSettings
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import admin, agent, analytics, health, jobs, resumes, search, skills
 from app.core.config import get_settings
 from app.core.db import engine
 from app.core.logging import setup_logging
+from app.core.rate_limit import DEFAULT, rate_limit
 from app.core.redis import redis
+from app.core.security_headers import add_security_headers
 
 settings = get_settings()
 setup_logging(settings.log_level)
@@ -31,12 +33,15 @@ app = FastAPI(
     docs_url="/docs" if settings.is_dev else None,
     redoc_url=None,
     openapi_url="/openapi.json" if settings.is_dev else None,
+    dependencies=[Depends(rate_limit(DEFAULT))],
 )
+
+app.middleware("http")(add_security_headers)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type"],
 )
 

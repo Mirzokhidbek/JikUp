@@ -37,7 +37,7 @@ export default function SearchPage() {
           {jobs.isPending ? (
             <ListSkeleton />
           ) : jobs.isError ? (
-            <ErrorState message={jobs.error.message} onRetry={() => void jobs.refetch()} />
+            <ErrorState error={jobs.error} onRetry={() => void jobs.refetch()} />
           ) : jobs.data.items.length === 0 ? (
             <EmptyState title={t('search.empty')} hint={t('search.emptyHint')} />
           ) : (

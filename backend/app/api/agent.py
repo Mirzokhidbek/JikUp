@@ -15,6 +15,7 @@ from app.api.search import sse
 from app.core.config import get_settings
 from app.core.db import SessionLocal, get_session
 from app.core.llm import LLM
+from app.core.rate_limit import AGENT_RUN, rate_limit
 from app.schemas.agent import AgentRunOut, AgentRunRequest
 from app.services.agent_runs import COMPLETED, FAILED, create_run, finish_run, get_run
 from app.services.job_queries import get_job
@@ -60,7 +61,7 @@ async def _run_agent(
             await queue.put(None)
 
 
-@router.post("/run")
+@router.post("/run", dependencies=[Depends(rate_limit(AGENT_RUN))])
 async def run_agent(
     body: AgentRunRequest,
     session: Session,

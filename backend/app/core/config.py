@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     saramin_max_pages: int = 10
 
     admin_token: SecretStr = SecretStr("")
+    rate_limit_enabled: bool = True
 
     @field_validator("cors_origins", mode="before")
     @classmethod
