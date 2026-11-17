@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef } from 'react'
 import { useI18n } from '../i18n/useI18n'
-import { card, focusRing, muted } from './ui'
+import { focusRing, muted, secondaryButton } from './ui'
 
 type Props = {
   open: boolean
@@ -11,7 +11,7 @@ type Props = {
   onClose: () => void
 }
 
-const button = `inline-flex min-h-11 items-center rounded-md px-4 text-sm font-medium ${focusRing}`
+const danger = `inline-flex min-h-11 items-center rounded-lg bg-red-700 px-4 text-sm font-semibold text-white hover:bg-red-800 ${focusRing}`
 
 export default function ConfirmDialog({
   open,
@@ -39,7 +39,7 @@ export default function ConfirmDialog({
       aria-labelledby={titleId}
       aria-describedby={bodyId}
       onClose={onClose}
-      className={`${card} m-auto max-w-sm p-6 text-ink backdrop:bg-black/50 dark:text-slate-100`}
+      className="m-auto max-w-sm rounded-2xl bg-white p-6 text-ink shadow-xl backdrop:bg-black/50 dark:bg-slate-900 dark:text-slate-100"
     >
       <h2 id={titleId} className="text-lg font-semibold">
         {title}
@@ -48,19 +48,10 @@ export default function ConfirmDialog({
         {body}
       </p>
       <div className="mt-6 flex justify-end gap-2">
-        <button
-          type="button"
-          autoFocus
-          onClick={onClose}
-          className={`${button} border border-slate-300 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800`}
-        >
+        <button type="button" autoFocus onClick={onClose} className={secondaryButton}>
           {t('copilot.cancel')}
         </button>
-        <button
-          type="button"
-          onClick={onConfirm}
-          className={`${button} bg-red-700 text-white hover:bg-red-800`}
-        >
+        <button type="button" onClick={onConfirm} className={danger}>
           {confirmLabel}
         </button>
       </div>

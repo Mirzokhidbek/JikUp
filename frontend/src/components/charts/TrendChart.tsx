@@ -71,7 +71,8 @@ export default function TrendChart({ report, colorOf, formatWeek }: Props) {
             align="left"
             iconType="plainline"
             itemSorter={(item) => order.indexOf(String(item.value))}
-            wrapperStyle={{ fontSize: 12, color: 'var(--viz-text-2)', paddingBottom: 8 }}
+            wrapperStyle={{ fontSize: 12, paddingBottom: 8 }}
+            formatter={(value) => <span style={{ color: 'var(--viz-text-2)' }}>{value}</span>}
           />
           {report.series.map((s) => (
             <Line

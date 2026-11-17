@@ -5,10 +5,10 @@ import { useI18n } from '../../i18n/useI18n'
 import { formatDate } from '../../lib/format'
 import ConfirmDialog from '../ConfirmDialog'
 import { ErrorState } from '../States'
-import { focusRing, muted } from '../ui'
+import { focusRing, muted, primaryButton } from '../ui'
 
 const MAX_BYTES = 5 * 1024 * 1024
-const tag = 'rounded bg-slate-100 px-2 py-0.5 text-xs dark:bg-slate-800'
+const tag = 'rounded-md bg-fill-strong px-2 py-0.5 text-xs'
 
 function Dropzone({ onFile, busy }: { onFile: (file: File) => void; busy: boolean }) {
   const { t } = useI18n()
@@ -39,15 +39,15 @@ function Dropzone({ onFile, busy }: { onFile: (file: File) => void; busy: boolea
       }}
       onDragLeave={() => setOver(false)}
       onDrop={onDrop}
-      className={`rounded-lg border-2 border-dashed p-6 text-center ${
-        over ? 'border-brand bg-blue-50 dark:bg-blue-950' : 'border-slate-300 dark:border-slate-700'
+      className={`rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
+        over ? 'border-ink bg-fill-strong dark:border-white' : 'border-ink/15 dark:border-white/15'
       }`}
     >
       <p className="font-medium">{busy ? t('copilot.uploading') : t('copilot.drop')}</p>
       <p className={`mt-1 text-sm ${muted}`}>{t('copilot.dropHint')}</p>
       <label
         htmlFor={inputId}
-        className={`mt-4 inline-flex min-h-11 cursor-pointer items-center rounded-md bg-brand px-4 text-sm font-medium text-white hover:bg-blue-700 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand ${busy ? 'pointer-events-none opacity-50' : ''}`}
+        className={`${primaryButton} mt-4 cursor-pointer has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand ${busy ? 'pointer-events-none opacity-50' : ''}`}
       >
         {t('copilot.choose')}
         <input

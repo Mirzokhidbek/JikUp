@@ -3,9 +3,9 @@ import type { CoverLetter } from '../../api/types'
 import { SECTIONS, letterFilename, letterText } from '../../lib/letter'
 import type { MessageKey } from '../../i18n/en'
 import { useI18n } from '../../i18n/useI18n'
-import { focusRing, muted } from '../ui'
+import { focusRing, muted, secondaryButton } from '../ui'
 
-const button = `inline-flex min-h-11 items-center rounded-md border border-slate-300 px-4 text-sm font-medium hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800 ${focusRing}`
+const button = secondaryButton
 
 export default function CoverLetterTab({
   letter,
@@ -55,7 +55,7 @@ export default function CoverLetterTab({
             value={draft[key]}
             onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
             rows={7}
-            className={`w-full resize-y rounded-md border border-slate-300 bg-white p-3 text-sm leading-relaxed dark:border-slate-700 dark:bg-slate-900 ${focusRing}`}
+            className={`w-full resize-y rounded-lg bg-fill-strong p-3 text-sm leading-relaxed ${focusRing}`}
           />
         </div>
       ))}

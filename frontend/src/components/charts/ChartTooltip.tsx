@@ -2,7 +2,7 @@ type Row = { name: string; value: string; color?: string }
 
 export default function ChartTooltip({ title, rows }: { title: string; rows: Row[] }) {
   return (
-    <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs shadow-sm dark:border-slate-700 dark:bg-slate-900">
+    <div className="rounded-lg bg-white px-3 py-2 text-xs shadow-lg ring-1 ring-ink/5 dark:bg-slate-900 dark:ring-white/10">
       <p className="mb-1 text-slate-600 dark:text-slate-400">{title}</p>
       <ul className="space-y-0.5">
         {rows.map((row) => (

@@ -10,7 +10,6 @@ import TrendChart from '../components/charts/TrendChart'
 import Page from '../components/Page.tsx'
 import SkillInput, { inputClass } from '../components/SkillInput'
 import { ErrorState } from '../components/States'
-import { muted } from '../components/ui'
 import type { MessageKey } from '../i18n/en'
 import { useI18n } from '../i18n/useI18n'
 import { assignSlots, colorFor, type Slots } from '../lib/seriesSlots'
@@ -106,15 +105,14 @@ export default function DashboardPage() {
   }
 
   return (
-    <Page title={t('nav.dashboard')}>
-      <p className={`mt-1 ${muted}`}>{t('dash.subtitle')}</p>
+    <Page title={t('nav.dashboard')} lead={t('dash.subtitle')}>
       {o && o.demo_share > 0 && (
-        <p className="mt-4 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100">
+        <p className="mt-6 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:bg-amber-400/10 dark:text-amber-100">
           {t('dash.demoNote', { share: o.demo_share })}
         </p>
       )}
 
-      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatTile
           label={t('dash.kpiActive')}
           value={o ? o.active_jobs.toLocaleString(lang) : '-'}
@@ -143,7 +141,10 @@ export default function DashboardPage() {
         className="mt-8 flex flex-wrap gap-4"
       >
         <div className="w-full sm:w-56">
-          <label htmlFor={periodId} className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor={periodId}
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             {t('dash.period')}
           </label>
           <select
@@ -160,7 +161,10 @@ export default function DashboardPage() {
           </select>
         </div>
         <div className="w-full sm:w-56">
-          <label htmlFor={categoryId} className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor={categoryId}
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             {t('dash.category')}
           </label>
           <select
@@ -249,7 +253,10 @@ export default function DashboardPage() {
         className="mt-6"
       >
         <div className="mb-4 w-full sm:w-56">
-          <label htmlFor={coId} className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor={coId}
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             {t('dash.skill')}
           </label>
           <select

@@ -54,7 +54,7 @@ export default function ResultTabs({
         role="tablist"
         aria-label={t('copilot.step3')}
         onKeyDown={onKeyDown}
-        className="flex gap-1 border-b border-slate-200 dark:border-slate-800"
+        className="inline-flex max-w-full gap-1 overflow-x-auto rounded-xl bg-fill-strong p-1"
       >
         {TABS.map((tab) => (
           <button
@@ -69,10 +69,10 @@ export default function ResultTabs({
             aria-controls={`${base}-panel-${tab}`}
             tabIndex={active === tab ? 0 : -1}
             onClick={() => setActive(tab)}
-            className={`-mb-px min-h-11 border-b-2 px-4 text-sm font-medium ${focusRing} ${
+            className={`min-h-11 rounded-lg px-4 text-sm font-medium whitespace-nowrap transition-colors ${focusRing} ${
               active === tab
-                ? 'border-brand text-blue-700 dark:border-blue-400 dark:text-blue-300'
-                : 'border-transparent text-slate-600 hover:text-ink dark:text-slate-400 dark:hover:text-white'
+                ? 'bg-white text-ink shadow-sm dark:bg-slate-800 dark:text-white'
+                : 'text-slate-600 hover:text-ink dark:text-slate-400 dark:hover:text-white'
             }`}
           >
             {labels[tab]}

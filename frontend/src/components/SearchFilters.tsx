@@ -30,7 +30,10 @@ function Select({
   const id = useId()
   return (
     <div>
-      <label htmlFor={id} className="mb-1 block text-sm font-medium">
+      <label
+        htmlFor={id}
+        className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+      >
         {label}
       </label>
       <select
@@ -68,10 +71,13 @@ export default function SearchFilters({ filters, onChange, onReset }: Props) {
     <form
       aria-label={t('search.filters')}
       onSubmit={(e) => e.preventDefault()}
-      className="space-y-4"
+      className="space-y-5"
     >
       <div>
-        <label htmlFor={keywordId} className="mb-1 block text-sm font-medium">
+        <label
+          htmlFor={keywordId}
+          className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           {t('search.keyword')}
         </label>
         <input

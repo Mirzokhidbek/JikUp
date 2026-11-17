@@ -9,15 +9,15 @@ import ResultTabs from '../components/copilot/ResultTabs'
 import ResumePanel from '../components/copilot/ResumePanel'
 import Page from '../components/Page.tsx'
 import { ErrorState } from '../components/States'
-import { card, focusRing, muted } from '../components/ui'
+import { card, muted, primaryButton } from '../components/ui'
 import { useEventStream } from '../hooks/useEventStream'
 import { useResume } from '../hooks/useResume'
 import { useI18n } from '../i18n/useI18n'
 
 function Step({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className={`${card} min-w-0 p-5`} aria-label={title}>
-      <h2 className="mb-4 font-semibold">{title}</h2>
+    <section className={`${card} min-w-0 p-6`} aria-label={title}>
+      <h2 className="mb-4 font-semibold tracking-tight">{title}</h2>
       {children}
     </section>
   )
@@ -70,9 +70,8 @@ export default function CopilotPage() {
   }
 
   return (
-    <Page title={t('nav.copilot')}>
-      <p className={`mt-1 ${muted}`}>{t('copilot.subtitle')}</p>
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <Page title={t('nav.copilot')} lead={t('copilot.subtitle')}>
+      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Step title={t('copilot.step1')}>
           <ResumePanel state={resumeState} />
         </Step>
@@ -88,7 +87,7 @@ export default function CopilotPage() {
               type="button"
               onClick={run}
               disabled={!resume || !job || running}
-              className={`inline-flex min-h-11 items-center rounded-md bg-brand px-5 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 ${focusRing}`}
+              className={`${primaryButton} px-5`}
             >
               {running ? t('copilot.running') : t('copilot.run')}
             </button>

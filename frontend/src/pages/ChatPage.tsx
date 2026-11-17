@@ -2,13 +2,12 @@ import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import type { SearchHit } from '../api/types'
 import ChatMessage, { type ChatTurn } from '../components/ChatMessage'
 import Page from '../components/Page.tsx'
-import { focusRing, muted } from '../components/ui'
+import { focusRing, muted, primaryButton, secondaryButton } from '../components/ui'
 import { useEventStream } from '../hooks/useEventStream'
 import { useI18n } from '../i18n/useI18n'
 
 const MAX_QUESTION = 500
 const EXAMPLES = ['chat.example1', 'chat.example2', 'chat.example3'] as const
-const button = `inline-flex min-h-11 items-center rounded-md px-4 text-sm font-medium ${focusRing}`
 
 export default function ChatPage() {
   const { t } = useI18n()
@@ -62,11 +61,9 @@ export default function ChatPage() {
   }
 
   return (
-    <Page title={t('nav.chat')}>
-      <p className={`mt-1 ${muted}`}>{t('chat.subtitle')}</p>
-
+    <Page title={t('nav.chat')} lead={t('chat.subtitle')}>
       {turns.length === 0 ? (
-        <section className="mt-6" aria-labelledby="examples-heading">
+        <section className="mt-8" aria-labelledby="examples-heading">
           <h2 id="examples-heading" className={`mb-2 text-sm ${muted}`}>
             {t('chat.examplesTitle')}
           </h2>
@@ -76,7 +73,7 @@ export default function ChatPage() {
                 <button
                   type="button"
                   onClick={() => ask(t(key))}
-                  className={`${button} w-full border border-slate-300 text-left hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800`}
+                  className={`${secondaryButton} w-full justify-start rounded-full text-left font-medium`}
                 >
                   {t(key)}
                 </button>
@@ -85,7 +82,7 @@ export default function ChatPage() {
           </ul>
         </section>
       ) : (
-        <ol className="mt-6 space-y-8" aria-live="polite" aria-relevant="additions">
+        <ol className="mt-8 space-y-8" aria-live="polite" aria-relevant="additions">
           {turns.map((turn) => (
             <ChatMessage key={turn.id} turn={turn} />
           ))}
@@ -95,7 +92,7 @@ export default function ChatPage() {
 
       <form
         onSubmit={onSubmit}
-        className="sticky bottom-0 mt-8 border-t border-slate-200 bg-white/95 py-4 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95"
+        className="sticky bottom-0 mt-8 bg-white/90 py-4 backdrop-blur-md dark:bg-slate-950/90"
       >
         <label htmlFor={inputId} className="sr-only">
           {t('chat.inputLabel')}
@@ -115,22 +112,14 @@ export default function ChatPage() {
             maxLength={MAX_QUESTION}
             placeholder={t('chat.placeholder')}
             aria-describedby={hintId}
-            className={`min-h-11 flex-1 resize-y rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:placeholder:text-slate-400 ${focusRing}`}
+            className={`min-h-11 flex-1 resize-y rounded-xl bg-fill-strong px-4 py-3 text-sm placeholder:text-slate-500 dark:placeholder:text-slate-400 ${focusRing}`}
           />
           {streaming ? (
-            <button
-              type="button"
-              onClick={stream.stop}
-              className={`${button} border border-slate-300 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800`}
-            >
+            <button type="button" onClick={stream.stop} className={secondaryButton}>
               {t('chat.stop')}
             </button>
           ) : (
-            <button
-              type="submit"
-              disabled={!question.trim()}
-              className={`${button} bg-brand text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50`}
-            >
+            <button type="submit" disabled={!question.trim()} className={primaryButton}>
               {t('chat.send')}
             </button>
           )}

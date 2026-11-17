@@ -21,7 +21,7 @@ function SkillList({
         {skills.map((skill) => (
           <li
             key={skill}
-            className={`rounded px-2 py-0.5 text-sm ${
+            className={`rounded-md px-2 py-0.5 text-sm ${
               have
                 ? 'bg-green-50 text-green-800 dark:bg-green-950 dark:text-green-200'
                 : 'bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-200'
@@ -58,7 +58,7 @@ export default function SkillGapTab({ gap, summary }: { gap: SkillGap; summary: 
             aria-valuenow={percent}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="mt-2 h-2.5 overflow-hidden rounded bg-slate-200 dark:bg-slate-800"
+            className="mt-2 h-2.5 overflow-hidden rounded-full bg-fill-strong"
           >
             <div className="h-full bg-brand dark:bg-blue-400" style={{ width: `${percent}%` }} />
           </div>
@@ -76,7 +76,7 @@ export default function SkillGapTab({ gap, summary }: { gap: SkillGap; summary: 
         </p>
       )}
       {summary && (
-        <section className="rounded-md bg-slate-50 p-4 dark:bg-slate-900">
+        <section className="rounded-lg bg-fill-strong p-4">
           <h3 className="mb-1 text-sm font-medium">{t('copilot.summary')}</h3>
           <p className="text-sm leading-relaxed whitespace-pre-line">{summary}</p>
         </section>

@@ -5,7 +5,7 @@ import { useI18n } from '../../i18n/useI18n'
 import { marketGap } from '../../lib/marketGap'
 import { card, link, muted } from '../ui'
 
-const chip = 'rounded px-2 py-0.5 text-sm'
+const chip = 'rounded-md px-2 py-0.5 text-sm'
 
 export default function MarketGap({ market }: { market: SkillShare[] }) {
   const { t } = useI18n()

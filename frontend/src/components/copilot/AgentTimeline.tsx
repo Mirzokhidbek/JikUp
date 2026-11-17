@@ -37,8 +37,8 @@ export default function AgentTimeline({
                 state === 'done'
                   ? 'bg-green-700 text-white'
                   : state === 'active'
-                    ? 'border-2 border-brand motion-safe:animate-pulse'
-                    : 'border border-slate-300 dark:border-slate-700'
+                    ? 'border-2 border-ink motion-safe:animate-pulse dark:border-white'
+                    : 'border border-ink/20 dark:border-white/20'
               }`}
             >
               {state === 'done' ? '✓' : ''}

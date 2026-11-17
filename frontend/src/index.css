@@ -1,22 +1,39 @@
 @import 'tailwindcss';
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-brand: #0a6cf5;
   --color-ink: #0f1631;
+  --font-sans:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+/* Surfaces are translucent fills on the page instead of bordered boxes. */
+@theme inline {
+  --color-fill: var(--app-fill);
+  --color-fill-strong: var(--app-fill-strong);
 }
 
 :root {
   color-scheme: light;
+  --app-fill: rgb(15 22 49 / 0.04);
+  --app-fill-strong: rgb(15 22 49 / 0.08);
 }
 
 .dark {
   color-scheme: dark;
+  --app-fill: rgb(255 255 255 / 0.05);
+  --app-fill-strong: rgb(255 255 255 / 0.1);
+}
+
+body {
+  letter-spacing: -0.005em;
 }
 
 .viz-root {
-  --viz-surface: #ffffff;
+  --viz-surface: #f5f6f7;
   --viz-text: #0f1631;
   --viz-text-2: #475569;
   --viz-muted: #64748b;
@@ -30,7 +47,7 @@
 }
 
 .dark .viz-root {
-  --viz-surface: #0f172a;
+  --viz-surface: #0f1224;
   --viz-text: #f1f5f9;
   --viz-text-2: #cbd5e1;
   --viz-muted: #94a3b8;

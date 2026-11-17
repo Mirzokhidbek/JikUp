@@ -52,7 +52,7 @@ export default function Layout() {
       >
         {t('a11y.skip')}
       </a>
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
+      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md dark:bg-slate-950/85">
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
           <NavLink
             to="/"
@@ -106,7 +106,7 @@ export default function Layout() {
           id={menuId}
           aria-label={t('nav.main')}
           hidden={!menuOpen}
-          className="border-t border-slate-200 px-4 py-3 md:hidden dark:border-slate-800"
+          className="border-t border-ink/8 px-4 py-3 md:hidden dark:border-white/8"
         >
           <NavItems vertical onNavigate={() => setMenuOpen(false)} />
         </nav>

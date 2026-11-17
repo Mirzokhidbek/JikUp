@@ -7,7 +7,7 @@ import { useI18n } from '../../i18n/useI18n'
 import { experienceLabel } from '../../lib/format'
 import { DemoBadge } from '../JobCard'
 import { inputClass } from '../SkillInput'
-import { card, focusRing, muted } from '../ui'
+import { card, focusRing, link, muted } from '../ui'
 
 type Props = { selected: JobSummary | null; onSelect: (job: JobSummary | null) => void }
 
@@ -47,7 +47,7 @@ export default function JobPicker({ selected, onSelect }: Props) {
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className={`inline-flex min-h-11 items-center text-sm text-blue-700 underline-offset-4 hover:underline dark:text-blue-300 ${focusRing}`}
+          className={`inline-flex min-h-11 items-center text-sm ${link}`}
         >
           {t('copilot.change')}
         </button>
@@ -58,7 +58,10 @@ export default function JobPicker({ selected, onSelect }: Props) {
   return (
     <div className="space-y-3">
       <div>
-        <label htmlFor={inputId} className="mb-1 block text-sm font-medium">
+        <label
+          htmlFor={inputId}
+          className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
+        >
           {t('copilot.jobSearch')}
         </label>
         <input
@@ -81,7 +84,7 @@ export default function JobPicker({ selected, onSelect }: Props) {
                 type="button"
                 onClick={() => onSelect(job)}
                 aria-label={`${t('copilot.select')}: ${job.title}`}
-                className={`${card} flex min-h-11 w-full items-center justify-between gap-3 p-3 hover:border-brand ${focusRing}`}
+                className={`${card} flex min-h-11 w-full items-center justify-between gap-3 p-3 text-left transition-colors hover:bg-fill-strong ${focusRing}`}
               >
                 <JobLine job={job} />
               </button>

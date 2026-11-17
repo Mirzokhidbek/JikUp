@@ -4,12 +4,10 @@ import JobCard from '../components/JobCard'
 import Page from '../components/Page.tsx'
 import SearchFilters from '../components/SearchFilters'
 import { EmptyState, ErrorState, ListSkeleton } from '../components/States'
-import { focusRing, muted } from '../components/ui'
+import { muted, secondaryButton as pageButton } from '../components/ui'
 import { toQuery, useJobFilters } from '../hooks/useJobFilters'
 import { useI18n } from '../i18n/useI18n'
 import { PAGE_SIZE } from '../lib/constants'
-
-const pageButton = `min-h-11 rounded-md border border-slate-300 px-4 text-sm font-medium hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800 ${focusRing}`
 
 export default function SearchPage() {
   const { t } = useI18n()
@@ -24,9 +22,8 @@ export default function SearchPage() {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE))
 
   return (
-    <Page title={t('nav.search')}>
-      <p className={`mt-1 ${muted}`}>{t('search.subtitle')}</p>
-      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
+    <Page title={t('nav.search')} lead={t('search.subtitle')}>
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
         <aside>
           <SearchFilters filters={filters} onChange={update} onReset={reset} />
         </aside>

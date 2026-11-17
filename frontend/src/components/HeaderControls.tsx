@@ -40,7 +40,7 @@ export function LanguageSelect() {
       <select
         value={lang}
         onChange={(e) => isLang(e.target.value) && setLang(e.target.value)}
-        className={`h-11 rounded-md border border-slate-300 bg-white px-2 text-sm dark:border-slate-700 dark:bg-slate-900 ${focusRing}`}
+        className={`h-11 rounded-lg bg-fill-strong px-2 text-sm ${focusRing}`}
       >
         {LANGUAGES.map(({ code, label }) => (
           <option key={code} value={code}>

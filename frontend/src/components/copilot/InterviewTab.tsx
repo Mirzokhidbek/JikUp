@@ -26,12 +26,12 @@ export default function InterviewTab({ questions }: { questions: InterviewQuesti
                   {q.question}
                 </span>
                 <span
-                  className={`shrink-0 rounded px-2 py-0.5 text-xs ${CATEGORY_STYLE[q.category] ?? ''}`}
+                  className={`shrink-0 rounded-md px-2 py-0.5 text-xs ${CATEGORY_STYLE[q.category] ?? ''}`}
                 >
                   {known ? t(`copilot.category.${q.category}` as MessageKey) : q.category}
                 </span>
               </summary>
-              <div className="border-t border-slate-200 p-3 text-sm dark:border-slate-800">
+              <div className="border-t border-ink/8 p-3 text-sm dark:border-white/8">
                 <p className="mb-1 font-medium">{t('copilot.direction')}</p>
                 <p lang="ko" className={muted}>
                   {q.answer_direction}

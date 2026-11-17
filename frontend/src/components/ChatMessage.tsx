@@ -17,8 +17,7 @@ export type ChatTurn = {
   error?: string
 }
 
-const chipClass =
-  'rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+const chipClass = 'rounded-md bg-fill-strong px-2 py-0.5 text-xs text-slate-700 dark:text-slate-300'
 
 function FilterChips({ filters }: { filters: NonNullable<ChatTurn['filters']> }) {
   const { t } = useI18n()
@@ -64,7 +63,7 @@ function Sources({ sources, anchorPrefix }: { sources: SearchHit[]; anchorPrefix
           <li
             key={job.id}
             id={`${anchorPrefix}-${job.id}`}
-            className={`${card} scroll-mt-24 p-3 text-sm target:ring-2 target:ring-brand`}
+            className={`${card} scroll-mt-24 p-3 text-sm bg-fill-strong target:ring-2 target:ring-brand`}
           >
             <div className="flex items-start justify-between gap-2">
               <p className="font-medium">
@@ -102,11 +101,11 @@ export default function ChatMessage({ turn }: { turn: ChatTurn }) {
 
   return (
     <li className="space-y-3">
-      <div className="ml-auto max-w-[85%] rounded-lg bg-brand px-4 py-2 text-white">
+      <div className="ml-auto w-fit max-w-[85%] rounded-2xl bg-ink px-4 py-2.5 text-white dark:bg-white dark:text-ink">
         <span className="sr-only">{t('chat.you')}: </span>
         <p className="whitespace-pre-wrap">{turn.question}</p>
       </div>
-      <article className={`${card} space-y-4 p-4`} aria-busy={busy}>
+      <article className={`${card} space-y-4 p-5`} aria-busy={busy}>
         <span className="sr-only">{t('chat.assistant')}:</span>
         {turn.filters && <FilterChips filters={turn.filters} />}
         {turn.status === 'searching' && (
