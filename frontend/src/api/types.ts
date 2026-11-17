@@ -16,6 +16,12 @@ export type SkillGap = Schemas['SkillGap']
 export type CoverLetter = Schemas['CoverLetter']
 export type InterviewQuestion = Schemas['InterviewQuestion']
 export type SkillCount = Schemas['SkillCount']
+export type Overview = Schemas['Overview']
+export type SkillsReport = Schemas['SkillsReport']
+export type TrendReport = Schemas['TrendReport']
+export type Bucket = Schemas['Bucket']
+export type SkillShare = Schemas['SkillShare']
+export type CooccurrenceReport = Schemas['CooccurrenceReport']
 export type Language = Schemas['AgentRunRequest']['language']
 
 export type JobQuery = {

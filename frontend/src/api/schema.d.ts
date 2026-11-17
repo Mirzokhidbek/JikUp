@@ -209,6 +209,108 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/analytics/overview': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Overview */
+    get: operations['get_overview_analytics_overview_get']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/analytics/skills': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Skills */
+    get: operations['get_skills_analytics_skills_get']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/analytics/trends': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Trends */
+    get: operations['get_trends_analytics_trends_get']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/analytics/experience': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Experience */
+    get: operations['get_experience_analytics_experience_get']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/analytics/cities': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Cities */
+    get: operations['get_cities_analytics_cities_get']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/analytics/cooccurrence': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Cooccurrence */
+    get: operations['get_cooccurrence_analytics_cooccurrence_get']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
 export type webhooks = Record<string, never>
 export interface components {
@@ -288,6 +390,24 @@ export interface components {
     Body_upload_resume_resumes_post: {
       /** File */
       file: string
+    }
+    /** Bucket */
+    Bucket: {
+      /** Label */
+      label: string
+      /** Jobs */
+      jobs: number
+      /** Share */
+      share: number
+    }
+    /** CooccurrenceReport */
+    CooccurrenceReport: {
+      /** Skill */
+      skill: string
+      /** Jobs */
+      jobs: number
+      /** Related */
+      related: components['schemas']['SkillShare'][]
     }
     /** CoverLetter */
     CoverLetter: {
@@ -419,6 +539,18 @@ export interface components {
       /** Other */
       other?: string[]
     }
+    /** Overview */
+    Overview: {
+      /** Active Jobs */
+      active_jobs: number
+      /** New This Week */
+      new_this_week: number
+      /** Entry Level Share */
+      entry_level_share: number
+      /** Demo Share */
+      demo_share: number
+      top_skill: components['schemas']['SkillShare'] | null
+    }
     /** ParsedQuery */
     ParsedQuery: {
       /** Semantic Query */
@@ -489,6 +621,11 @@ export interface components {
       section: string
       /** Snippet */
       snippet: string
+      /**
+       * Exact
+       * @default true
+       */
+      exact: boolean
     }
     /** SearchRequest */
     SearchRequest: {
@@ -535,6 +672,42 @@ export interface components {
       experience_years: number | null
       /** Experience Gap */
       experience_gap: number | null
+    }
+    /** SkillShare */
+    SkillShare: {
+      /** Name */
+      name: string
+      /** Jobs */
+      jobs: number
+      /** Share */
+      share: number
+    }
+    /** SkillsReport */
+    SkillsReport: {
+      /** Total Jobs */
+      total_jobs: number
+      /** Category */
+      category: string | null
+      /** Categories */
+      categories: string[]
+      /** Skills */
+      skills: components['schemas']['SkillShare'][]
+    }
+    /** TrendReport */
+    TrendReport: {
+      /** Weeks */
+      weeks: string[]
+      /** Totals */
+      totals: number[]
+      /** Series */
+      series: components['schemas']['TrendSeries'][]
+    }
+    /** TrendSeries */
+    TrendSeries: {
+      /** Skill */
+      skill: string
+      /** Counts */
+      counts: number[]
     }
     /** ValidationError */
     ValidationError: {
@@ -956,6 +1129,186 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['SkillCount'][]
+        }
+      }
+    }
+  }
+  get_overview_analytics_overview_get: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Overview']
+        }
+      }
+    }
+  }
+  get_skills_analytics_skills_get: {
+    parameters: {
+      query?: {
+        days?: number | null
+        category?: string | null
+        limit?: number
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SkillsReport']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  get_trends_analytics_trends_get: {
+    parameters: {
+      query?: {
+        skills?: string | null
+        weeks?: number
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['TrendReport']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  get_experience_analytics_experience_get: {
+    parameters: {
+      query?: {
+        days?: number | null
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Bucket'][]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  get_cities_analytics_cities_get: {
+    parameters: {
+      query?: {
+        days?: number | null
+        limit?: number
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Bucket'][]
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  get_cooccurrence_analytics_cooccurrence_get: {
+    parameters: {
+      query: {
+        skill: string
+        limit?: number
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CooccurrenceReport']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
         }
       }
     }

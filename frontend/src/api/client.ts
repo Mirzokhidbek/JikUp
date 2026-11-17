@@ -1,11 +1,16 @@
 import type {
   AgentRunOut,
+  Bucket,
+  CooccurrenceReport,
   JobDetail,
   JobPage,
   JobQuery,
+  Overview,
   ResumeOut,
   SearchResponse,
   SkillCount,
+  SkillsReport,
+  TrendReport,
 } from './types'
 
 export const API_BASE = '/api'
@@ -45,7 +50,7 @@ function jsonPost(body: unknown): RequestInit {
   }
 }
 
-export function jobQueryString(query: JobQuery): string {
+export function queryString(query: Record<string, string | number | string[] | undefined>): string {
   const params = new URLSearchParams()
   for (const [key, value] of Object.entries(query)) {
     if (value === undefined || value === '') continue
@@ -56,7 +61,7 @@ export function jobQueryString(query: JobQuery): string {
 }
 
 export const api = {
-  getJobs: (query: JobQuery) => request<JobPage>(`/jobs${jobQueryString(query)}`),
+  getJobs: (query: JobQuery) => request<JobPage>(`/jobs${queryString(query)}`),
   getJob: (id: number) => request<JobDetail>(`/jobs/${id}`),
   getSkills: () => request<SkillCount[]>('/skills'),
   search: (query: string, limit = 10) =>
@@ -69,4 +74,18 @@ export const api = {
   getResume: (id: string) => request<ResumeOut>(`/resumes/${id}`),
   deleteResume: (id: string) => request<void>(`/resumes/${id}`, { method: 'DELETE' }),
   getAgentRun: (id: string) => request<AgentRunOut>(`/agent/runs/${id}`),
+  analytics: {
+    overview: () => request<Overview>('/analytics/overview'),
+    skills: (days?: number, category?: string) =>
+      request<SkillsReport>(`/analytics/skills${queryString({ days, category, limit: 15 })}`),
+    trends: (skills: string[], weeks = 12) =>
+      request<TrendReport>(
+        `/analytics/trends${queryString({ skills: skills.join(',') || undefined, weeks })}`,
+      ),
+    experience: (days?: number) =>
+      request<Bucket[]>(`/analytics/experience${queryString({ days })}`),
+    cities: (days?: number) => request<Bucket[]>(`/analytics/cities${queryString({ days })}`),
+    cooccurrence: (skill: string) =>
+      request<CooccurrenceReport>(`/analytics/cooccurrence${queryString({ skill })}`),
+  },
 }

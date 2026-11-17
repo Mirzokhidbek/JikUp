@@ -42,7 +42,8 @@ class ParsedQuery(BaseModel):
 
 
 def sanitize(parsed: ParsedQuery, original: str, matcher: SkillMatcher) -> ParsedQuery:
-    skills = sorted({name for raw in parsed.skills for name in matcher.extract(raw)})
+    from_model = {name for raw in parsed.skills for name in matcher.extract(raw)}
+    skills = sorted(from_model | matcher.extract(original))
     experience = parsed.experience_max
     return ParsedQuery(
         semantic_query=parsed.semantic_query.strip() or original,

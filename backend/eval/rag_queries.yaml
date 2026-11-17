@@ -69,7 +69,11 @@
 
 - query: "Daejeonda AI tadqiqotchi yoki ML muhandis"
   expected: {city: 대전}
-  relevant: {city: 대전, title_any: [AI, ML, 연구, 머신러닝, 딥러닝, 인공지능]}
+  # Day 6: title words matched the company domain ("의료 AI 플랫폼 프론트엔드") or non-AI
+  # research ("연구" in statistics roles), so relevance now follows the posting's AI/ML skills.
+  relevant:
+    city: 대전
+    skills_any: [Machine Learning, Deep Learning, PyTorch, TensorFlow, MLOps, LLM, NLP, Computer Vision]
 
 - query: "Flutter mobile developer"
   expected: {skills: [Flutter]}

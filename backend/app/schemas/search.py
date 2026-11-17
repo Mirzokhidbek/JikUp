@@ -14,6 +14,7 @@ class SearchHit(BaseModel):
     score: float
     section: str
     snippet: str
+    exact: bool = True
 
 
 class SearchResponse(BaseModel):

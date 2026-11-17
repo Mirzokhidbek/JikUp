@@ -74,3 +74,9 @@ async def test_long_query_is_cut() -> None:
     await parse_query(client(models), "m", "가" * (MAX_QUERY_CHARS + 100))
     assert "가" * MAX_QUERY_CHARS in models.prompts[0]
     assert "가" * (MAX_QUERY_CHARS + 1) not in models.prompts[0]
+
+
+def test_sanitize_adds_skills_named_in_the_query() -> None:
+    raw = ParsedQuery(semantic_query="컴퓨터 비전 엔지니어", skills=["PyTorch"])
+    result = sanitize(raw, "Computer vision engineer with PyTorch", get_matcher())
+    assert result.skills == ["Computer Vision", "PyTorch"]

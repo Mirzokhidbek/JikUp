@@ -137,3 +137,15 @@ def test_prompt_mentions_relaxed_filters_and_language() -> None:
     )
     prompt = build_prompt("savol", result)
     assert "Uzbek" in prompt and "city" in prompt and "(none)" in prompt
+
+
+async def test_few_skill_matches_are_filled_with_close_matches(setup: Any) -> None:
+    parsed = ParsedQuery(semantic_query="결제", city="서울", skills=["Go"])
+    async with setup(FakeModels(parsed, [])) as client:
+        body = (await client.post("/search", json={"query": "q", "limit": 5})).json()
+    assert body["relaxed"] == []
+    assert body["items"][0]["job"]["title"] == "결제 백엔드 개발자"
+    assert body["items"][0]["exact"] is True
+    rest = body["items"][1:]
+    assert rest and all(item["exact"] is False for item in rest)
+    assert all(item["job"]["location_city"] == "서울" for item in body["items"])

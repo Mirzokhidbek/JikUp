@@ -14,3 +14,31 @@
 .dark {
   color-scheme: dark;
 }
+
+.viz-root {
+  --viz-surface: #ffffff;
+  --viz-text: #0f1631;
+  --viz-text-2: #475569;
+  --viz-muted: #64748b;
+  --viz-grid: #e2e8f0;
+  --viz-axis: #cbd5e1;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+}
+
+.dark .viz-root {
+  --viz-surface: #0f172a;
+  --viz-text: #f1f5f9;
+  --viz-text-2: #cbd5e1;
+  --viz-muted: #94a3b8;
+  --viz-grid: #1e293b;
+  --viz-axis: #334155;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+}

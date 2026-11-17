@@ -60,7 +60,7 @@ function Sources({ sources, anchorPrefix }: { sources: SearchHit[]; anchorPrefix
         {t('chat.sources')}
       </h3>
       <ol className="grid gap-2 sm:grid-cols-2">
-        {sources.map(({ job }, i) => (
+        {sources.map(({ job, exact }, i) => (
           <li
             key={job.id}
             id={`${anchorPrefix}-${job.id}`}
@@ -72,6 +72,11 @@ function Sources({ sources, anchorPrefix }: { sources: SearchHit[]; anchorPrefix
               </p>
               {job.source === 'seed' && <DemoBadge />}
             </div>
+            {exact === false && (
+              <p className="mt-0.5 text-xs text-amber-800 dark:text-amber-300">
+                {t('chat.closeMatch')}
+              </p>
+            )}
             <p className={`mt-0.5 ${muted}`}>
               {[job.company, job.location_city, experienceLabel(job, t)]
                 .filter(Boolean)

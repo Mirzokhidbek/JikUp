@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { jobQueryString } from './client'
+import { queryString } from './client'
 import { createSseParser, type SseEvent } from './sse'
 
 function collect() {
@@ -44,11 +44,11 @@ describe('createSseParser', () => {
   })
 })
 
-describe('jobQueryString', () => {
+describe('queryString', () => {
   it('repeats list params and skips empty values', () => {
-    expect(jobQueryString({ city: '서울', skill: ['Python', 'Go'], q: '', exp_max: 0 })).toBe(
+    expect(queryString({ city: '서울', skill: ['Python', 'Go'], q: '', exp_max: 0 })).toBe(
       '?city=%EC%84%9C%EC%9A%B8&skill=Python&skill=Go&exp_max=0',
     )
-    expect(jobQueryString({})).toBe('')
+    expect(queryString({})).toBe('')
   })
 })
