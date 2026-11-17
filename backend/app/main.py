@@ -6,7 +6,7 @@ from arq.connections import RedisSettings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import admin, agent, health, jobs, resumes, search
+from app.api import admin, agent, health, jobs, resumes, search, skills
 from app.core.config import get_settings
 from app.core.db import engine
 from app.core.logging import setup_logging
@@ -46,3 +46,4 @@ app.include_router(admin.router)
 app.include_router(search.router)
 app.include_router(resumes.router)
 app.include_router(agent.router)
+app.include_router(skills.router)

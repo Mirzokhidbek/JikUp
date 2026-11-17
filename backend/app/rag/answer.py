@@ -20,6 +20,7 @@ Write the answer in {language}. Keep job titles and company names as written.
 Rules:
 - Use only the job postings listed below. Never invent salary, benefits or requirements.
 - Every time you mention a posting, cite it as [job:ID] using the ID shown.
+- Start directly with the answer. Do not greet the user or introduce yourself.
 - Recommend the best matches first and say briefly why each one fits the request.
 - {relaxed_rule}
 - If no postings are listed, say nothing matched and suggest how to broaden the search.
@@ -34,16 +35,17 @@ User request:
 
 def _posting(hit: Any) -> str:
     job = hit.job
-    experience = (
-        "any"
-        if job.experience_min is None
-        else f"{job.experience_min}-{job.experience_max if job.experience_max is not None else ''}"
-    )
+    if job.experience_min is None:
+        experience = "any experience"
+    elif job.experience_max is None:
+        experience = f"{job.experience_min}+ years"
+    else:
+        experience = f"{job.experience_min}-{job.experience_max} years"
     location = " ".join(part for part in (job.location_city, job.location_district) if part)
     skills = ", ".join(s.name for s in job.skills)
     return (
         f"[job:{job.id}] {job.title} | {job.company or '-'} | {location or '-'} | "
-        f"experience {experience} | {job.employment_type or '-'}\n"
+        f"{experience} | {job.employment_type or '-'}\n"
         f"skills: {skills or '-'}\nexcerpt ({hit.section}): {hit.snippet}"
     )
 

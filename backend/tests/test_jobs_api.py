@@ -176,3 +176,11 @@ async def test_admin_disabled_without_token(monkeypatch: pytest.MonkeyPatch) -> 
             "/admin/collect", params={"source": "seed"}, headers={"X-Admin-Token": ""}
         )
     assert res.status_code == 503
+
+
+async def test_skills_counts_active_jobs_only(client: AsyncClient) -> None:
+    res = await client.get("/skills")
+    counts = {item["name"]: item["jobs"] for item in res.json()}
+    assert counts["Python"] == 2
+    assert counts["PyTorch"] == 1 and counts["Java"] == 1
+    assert res.json()[0]["name"] == "Python"
